@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Play, ProblemConfig } from "../../components";
 import { ProblemCfg } from "../../types";
 import { createRandomArray } from "../../utils";
@@ -5,20 +6,16 @@ import { createRandomArray } from "../../utils";
 import "./MainPage.scss";
 
 export const MainPage: React.FC = () => {
-  const handleConfigChange = (config: ProblemCfg) => {
-    console.log(config);
+  const [boxes, setBoxes] = useState<Array<number>>([]);
 
-    console.log(
-      "🚀 ~ file: MainPage.tsx ~ line 12 ~ handleConfigChange ~ createRandomArray(config.noOfMen);",
-      createRandomArray(config.noOfMen)
-    );
-    createRandomArray(config.noOfMen);
+  const handleConfigChange = (config: ProblemCfg) => {
+    setBoxes(createRandomArray(config.noOfMen));
   };
 
   return (
     <div className="main-page">
       <ProblemConfig submitConfig={handleConfigChange} />
-      <Play />
+      <Play boxes={boxes} />
     </div>
   );
 };
