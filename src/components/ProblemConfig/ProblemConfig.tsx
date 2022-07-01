@@ -9,9 +9,11 @@ interface ProblemConfigProps {
 export const ProblemConfig: React.FC<ProblemConfigProps> = ({
   submitConfig,
 }) => {
-  const [cfg, setCfg] = useState<ProblemCfg>({
+  const initialCfg: ProblemCfg = {
     noOfMen: 0,
-  });
+  };
+
+  const [cfg, setCfg] = useState<ProblemCfg>(initialCfg);
 
   const handleNoOfMenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCfg({
@@ -23,6 +25,12 @@ export const ProblemConfig: React.FC<ProblemConfigProps> = ({
     event.preventDefault();
 
     submitConfig(cfg);
+  };
+
+  const reset = () => {
+    setCfg(initialCfg);
+
+    submitConfig(initialCfg);
   };
 
   return (
@@ -38,6 +46,7 @@ export const ProblemConfig: React.FC<ProblemConfigProps> = ({
           />
           <button type="submit">Play</button>
         </form>
+        <button onClick={reset}>Reset</button>
       </div>
     </div>
   );
