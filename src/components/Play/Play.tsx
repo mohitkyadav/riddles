@@ -22,7 +22,7 @@ export const Play: React.FC<PlayProps> = ({ boxes, intervalDur }) => {
       const boxValue = boxes[boxIdx];
       const box = document.getElementById(`${boxIdx}-${boxValue}`);
       // no need to update the dom if it's too fast to see from human eye
-      if (intervalDur >= 500) {
+      if (intervalDur >= 100) {
         box?.setAttribute("data-active", "true");
       }
 
@@ -38,7 +38,7 @@ export const Play: React.FC<PlayProps> = ({ boxes, intervalDur }) => {
       }
 
       // no need to update the dom if it's too fast to see from human eye
-      if (intervalDur >= 500) {
+      if (intervalDur >= 100) {
         setTimeout(() => box?.removeAttribute("data-active"), intervalDur);
       }
 
