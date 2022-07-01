@@ -42,9 +42,10 @@ export const ProblemConfig: React.FC<ProblemConfigProps> = ({
           <input
             type="number"
             placeholder="No. of men"
+            value={cfg.noOfMen}
             onChange={handleNoOfMenChange}
           />
-          <button type="submit">Play</button>
+          <button type="submit">Create Data</button>
         </form>
         <button onClick={reset}>Reset</button>
       </div>
