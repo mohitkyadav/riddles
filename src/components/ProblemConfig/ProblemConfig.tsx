@@ -11,13 +11,24 @@ export const ProblemConfig: React.FC<ProblemConfigProps> = ({
 }) => {
   const initialCfg: ProblemCfg = {
     noOfMen: 0,
+    intervalDur: 1000,
   };
 
   const [cfg, setCfg] = useState<ProblemCfg>(initialCfg);
 
   const handleNoOfMenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCfg({
-      noOfMen: parseInt(event.target.value),
+      ...cfg,
+      noOfMen: parseInt(event.target.value, 10),
+    });
+  };
+
+  const handleIntervalDurChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setCfg({
+      ...cfg,
+      intervalDur: parseInt(event.target.value, 10),
     });
   };
 
@@ -39,11 +50,19 @@ export const ProblemConfig: React.FC<ProblemConfigProps> = ({
 
       <div className="problem-config__form">
         <form onSubmit={handleSubmit}>
+          <h4>No. of men</h4>
           <input
             type="number"
             placeholder="No. of men"
             value={cfg.noOfMen}
             onChange={handleNoOfMenChange}
+          />
+          <h4>Interval duration (ms)</h4>
+          <input
+            type="number"
+            placeholder="Interval duration (ms)"
+            value={cfg.intervalDur}
+            onChange={handleIntervalDurChange}
           />
           <button type="submit">Create Data</button>
         </form>

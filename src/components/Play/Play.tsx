@@ -4,11 +4,13 @@ import "./Play.scss";
 
 interface PlayProps {
   boxes: Array<number>;
+  intervalDur: number;
 }
 
-export const Play: React.FC<PlayProps> = ({ boxes }) => {
+export const Play: React.FC<PlayProps> = ({ boxes, intervalDur }) => {
   const [passedMen, setPassedMen] = useState(0);
 
+  console.log("intervalDur", intervalDur);
   const startTheGame = () => {
     let manIdx = 0;
     let boxIdx = manIdx;
@@ -19,12 +21,13 @@ export const Play: React.FC<PlayProps> = ({ boxes }) => {
 
       const boxValue = boxes[boxIdx];
       const box = document.getElementById(`${boxIdx}-${boxValue}`);
-      // add data-active to the box
-      box?.setAttribute("data-active", "true");
+      // no need to update the dom if it's too fast to see from human eye
+      if (intervalDur >= 500) {
+        box?.setAttribute("data-active", "true");
+      }
 
       if (manIdx === boxValue) {
         console.log(`Man ${manIdx} found his number inside box ${boxIdx}`);
-
         setPassedMen((p) => p + 1);
         manIdx++;
         boxIdx = manIdx;
@@ -34,18 +37,15 @@ export const Play: React.FC<PlayProps> = ({ boxes }) => {
         boxCounter++;
       }
 
-      setTimeout(() => box?.removeAttribute("data-active"), 300);
+      // no need to update the dom if it's too fast to see from human eye
+      if (intervalDur >= 500) {
+        setTimeout(() => box?.removeAttribute("data-active"), intervalDur);
+      }
 
       if (boxCounter > boxes.length / 2 || manIdx === boxes.length) {
         clearInterval(interval);
       }
-    }, 300);
-  };
-
-  const checkBox = (manIdx: number, boxValue: number) => {
-    if (manIdx === boxValue) {
-      setPassedMen(passedMen + 1);
-    }
+    }, intervalDur);
   };
 
   return (
