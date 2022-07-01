@@ -1,0 +1,27 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "DM Sans", sans-serif;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0.028rem;
+  -webkit-font-smoothing: antialiased !important;
+  color: $font-color;
+}
+
+html {
+  font-size: 62.5% !important; // 1rem = 10px
+}
+
+body {
+  font-size: 1.6rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+}

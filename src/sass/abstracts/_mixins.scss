@@ -1,0 +1,27 @@
+@mixin rowFlex {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin colFlex {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin rowFlexCenter {
+  @include rowFlex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin colFlexCenter {
+  @include colFlex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin smoothBorderCorner {
+  border-radius: 5px;
+}
