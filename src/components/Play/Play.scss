@@ -57,7 +57,7 @@
           box-shadow: 0 0.5rem 1rem $color-black-op-20;
         }
 
-        &:hover &__cover {
+        &:hover &__cover, [data-active="true"] &__cover{
           transform: translateY(-90%);
           box-shadow: 0 0 1rem $color-black-op-20;
         }
