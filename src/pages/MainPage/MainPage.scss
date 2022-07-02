@@ -6,6 +6,7 @@
   flex-direction: column;
 
   &__play {
+    overflow: auto;
     padding: 4rem 3rem;
     display: flex;
     flex: 1;

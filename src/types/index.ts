@@ -3,7 +3,7 @@ export type ProblemCfg = {
   intervalDur: number;
 };
 
-export type CurrentGameState = {
-  currentPrisoner: number;
-  passedPrisoners: number;
+export type GameState = {
+  totalGames: number;
+  passedGames: number;
 };

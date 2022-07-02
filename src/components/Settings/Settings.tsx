@@ -1,18 +1,22 @@
 import { useState } from "react";
-import { ProblemCfg, CurrentGameState } from "../../types";
+import { ProblemCfg, GameState } from "../../types";
 import { VerticalDivider } from "../Divider/Divider";
 import "./Settings.scss";
 
 interface SettingsProps {
   submitConfig: (config: ProblemCfg) => void;
-  currentGameState: CurrentGameState;
+  gameState: GameState;
+  currentPrisoner: number;
   startTheGame: () => void;
+  reStartTheGame: () => void;
 }
 
 export const Settings: React.FC<SettingsProps> = ({
   submitConfig,
-  currentGameState,
+  gameState,
+  currentPrisoner,
   startTheGame,
+  reStartTheGame,
 }) => {
   const initialCfg: ProblemCfg = {
     noOfMen: 0,
@@ -66,18 +70,14 @@ export const Settings: React.FC<SettingsProps> = ({
 
         <div className="settings__row__item">
           <span>Current Prisoner</span>
-          <p>{currentGameState.currentPrisoner + 1}</p>
-        </div>
-
-        <div className="settings__row__item">
-          <span>Passed Prisoner</span>
-          <p>{currentGameState.passedPrisoners}</p>
+          <p>{currentPrisoner}</p>
         </div>
 
         <VerticalDivider />
 
         <div className="settings__row__controls">
           <button onClick={startTheGame}>Start</button>
+          <button onClick={reStartTheGame}>Randomize & Restart</button>
         </div>
       </div>
     </div>

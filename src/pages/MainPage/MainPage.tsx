@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Footer, Settings } from "../../components";
-import { ProblemCfg, CurrentGameState } from "../../types";
+import { ProblemCfg, GameState } from "../../types";
 import { createRandomArray } from "../../utils";
 
 import "./MainPage.scss";
 
 export const MainPage: React.FC = () => {
-  const [currentGameState, setCurrentGameState] = useState<CurrentGameState>({
-    currentPrisoner: 0,
-    passedPrisoners: 0,
+  const [gameState, setGameState] = useState<GameState>({
+    totalGames: 0,
+    passedGames: 0,
   });
+  const [currentPrisoner, setCurrentPrisoner] = useState<number>(0);
   const [cfg, setCfg] = useState<ProblemCfg>({
     intervalDur: 300,
     noOfMen: 0,
@@ -21,25 +22,22 @@ export const MainPage: React.FC = () => {
     setBoxes(createRandomArray(config.noOfMen));
   };
 
-  const [passedMen, setPassedMen] = useState(0);
-
   const startTheGame = () => {
     let manIdx = 0;
     let boxIdx = manIdx;
     let boxCounter = 0;
 
     const interval = setInterval(() => {
-      setCurrentGameState({
-        currentPrisoner: manIdx,
-        passedPrisoners: passedMen,
-      });
-
+      setCurrentPrisoner(manIdx);
       console.log(`Man ${manIdx} looking into box ${boxIdx}`);
       const boxValue = boxes[boxIdx];
       const box = document.getElementById(`${boxIdx}-${boxValue}`);
-      box?.scrollIntoView({
-        behavior: "smooth",
-      });
+
+      if (cfg.intervalDur >= 300) {
+        box?.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
       // no need to update the dom if it's too fast to see from human eye
       if (cfg.intervalDur >= 100) {
         box?.setAttribute("data-active", "true");
@@ -47,7 +45,6 @@ export const MainPage: React.FC = () => {
 
       if (manIdx === boxValue) {
         console.log(`Man ${manIdx} found his number inside box ${boxIdx}`);
-        setPassedMen((p) => p + 1);
         manIdx++;
         boxIdx = manIdx;
         boxCounter = 0;
@@ -61,26 +58,38 @@ export const MainPage: React.FC = () => {
         setTimeout(() => box?.removeAttribute("data-active"), cfg.intervalDur);
       }
 
+      if (boxCounter > boxes.length / 2) {
+        alert("Game over, failed on prisoner " + manIdx);
+      }
+
       if (boxCounter > boxes.length / 2 || manIdx === boxes.length) {
         clearInterval(interval);
       }
     }, cfg.intervalDur);
   };
 
+  const reStartTheGame = () => {
+    for (var i = 1; i < 999; i++) window.clearInterval(i);
+
+    setGameState({
+      totalGames: 0,
+      passedGames: 0,
+    });
+    setCurrentPrisoner(0);
+    setBoxes(createRandomArray(cfg.noOfMen));
+    startTheGame();
+  };
+
   return (
     <div className="main-page">
-      <div
-        className={`main-page__play ${
-          boxes.length > 0 ? "main-page__play--active" : ""
-        }`}
-      >
+      <div className="main-page__play">
         <h1>The 100 Prisoners Riddle / N wise men problem</h1>
 
         <div className="main-page__play__boxes">
           <div className="main-page__play__boxes__grid">
             {boxes.map((box, index) => (
               <div
-                key={index}
+                key={`${index}-${box}`}
                 id={`${index}-${box}`}
                 className="main-page__play__boxes__grid__box"
               >
@@ -95,8 +104,10 @@ export const MainPage: React.FC = () => {
       </div>
       <Settings
         submitConfig={handleConfigChange}
-        currentGameState={currentGameState}
+        gameState={gameState}
+        currentPrisoner={currentPrisoner}
         startTheGame={startTheGame}
+        reStartTheGame={reStartTheGame}
       />
       <Footer />
     </div>

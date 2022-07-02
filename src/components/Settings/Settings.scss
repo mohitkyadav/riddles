@@ -13,7 +13,7 @@
 
   &__row {
     display: flex;
-    gap: 1vw;
+    gap: 2vw;
 
     .vertical-divider {
       margin: 0 4rem;
@@ -49,20 +49,27 @@
     &__controls {
       display: flex;
       align-items: center;
-      gap: 0.2vw;
+      gap: 0.5vw;
 
       // ripple button
       button {
         font-size: 1.6rem;
-        padding: 0.8rem 1.6rem;
+        font-weight: 600;
+        padding: 2rem;
         border: 0;
-        border-radius: 0.5rem;
         background-color: $color-primary;
+        border: 1px solid $color-primary;
         color: $color-white;
         transition: all 0.3s ease-in-out;
         cursor: pointer;
         outline: none;
+
+        &:last-child {
+          background-color: $color-white;
+          color: $color-primary;
+        }
       }
+
     }
   }
 }
