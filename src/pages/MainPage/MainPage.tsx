@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { flushSync } from "react-dom";
+import { useState } from "react";
 import { Box, Footer, Settings, Console } from "../../components";
 import { ProblemCfg, GameState } from "../../types";
 import { createRandomArray } from "../../utils";
@@ -7,6 +6,7 @@ import { createRandomArray } from "../../utils";
 import "./MainPage.scss";
 
 export const MainPage: React.FC = () => {
+  const [gameRunning, setGameRunning] = useState(false);
   const [gameState, setGameState] = useState<GameState>({
     totalGames: 0,
     passedGames: 0,
@@ -28,6 +28,7 @@ export const MainPage: React.FC = () => {
     let manIdx = 0;
     let boxIdx = manIdx;
     let boxCounter = 0;
+    setGameRunning(true);
 
     while (
       manIdx < newBoxes.length &&
@@ -69,11 +70,24 @@ export const MainPage: React.FC = () => {
       }
 
       if (boxCounter >= newBoxes.length / 2) {
+        setGameRunning(false);
+        setGameState((gameState) => ({
+          ...gameState,
+          totalGames: gameState.totalGames + 1,
+        }));
         alert("Game over, failed on prisoner " + manIdx);
+        break;
       }
 
       if (manIdx === newBoxes.length) {
+        setGameRunning(false);
+        setGameState((gameState) => ({
+          ...gameState,
+          totalGames: gameState.totalGames + 1,
+          passedGames: gameState.passedGames + 1,
+        }));
         alert("All prisoners found their number");
+        break;
       }
     }
   };
@@ -91,7 +105,7 @@ export const MainPage: React.FC = () => {
 
   return (
     <div className="main-page">
-      <div className="main-page__play">
+      <div className="main-page__play animation-slide-down">
         <h1>The 100 Prisoners Riddle / N wise men problem</h1>
 
         <div className="main-page__play__boxes">
@@ -108,6 +122,7 @@ export const MainPage: React.FC = () => {
         currentPrisoner={currentPrisoner}
         startTheGame={startTheGame}
         reStartTheGame={reStartTheGame}
+        gameRunning={gameRunning}
       />
       <Footer />
       <Console logs={logs} />

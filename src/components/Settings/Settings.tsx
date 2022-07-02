@@ -9,6 +9,7 @@ interface SettingsProps {
   currentPrisoner: number;
   startTheGame: () => void;
   reStartTheGame: () => void;
+  gameRunning: boolean;
 }
 
 export const Settings: React.FC<SettingsProps> = ({
@@ -17,6 +18,7 @@ export const Settings: React.FC<SettingsProps> = ({
   currentPrisoner,
   startTheGame,
   reStartTheGame,
+  gameRunning,
 }) => {
   const initialCfg: ProblemCfg = {
     noOfMen: 0,
@@ -46,7 +48,7 @@ export const Settings: React.FC<SettingsProps> = ({
   };
 
   return (
-    <div className="settings">
+    <div className="settings animation-slide-down">
       <h3>Settings</h3>
       <div className="settings__row">
         <div className="settings__row__item">
@@ -70,17 +72,23 @@ export const Settings: React.FC<SettingsProps> = ({
 
         <div className="settings__row__item">
           <span>Current Prisoner</span>
-          <p>{currentPrisoner + 1}</p>
+          <p>{gameRunning ? currentPrisoner + 1 : "-"}</p>
         </div>
 
         <VerticalDivider />
 
         <div className="settings__row__controls">
-          <button onClick={() => startTheGame()} disabled={cfg.noOfMen <= 0}>
+          <button
+            onClick={() => startTheGame()}
+            disabled={gameRunning || cfg.noOfMen <= 0}
+          >
             Start
           </button>
-          <button onClick={reStartTheGame} disabled={cfg.noOfMen <= 0}>
-            Randomize & Restart
+          <button
+            onClick={reStartTheGame}
+            disabled={gameRunning || cfg.noOfMen <= 0}
+          >
+            Randomize Boxes & Start
           </button>
         </div>
       </div>

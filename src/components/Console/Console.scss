@@ -6,7 +6,7 @@
   overflow: auto;
   gap: 0.8rem;
   padding: 1rem;
-  height: 15rem;
+  height: 10rem;
   width: 30rem;
   background-color: $color-black-op-10;
   color: $color-white;
@@ -17,6 +17,6 @@
   }
 
   &__log {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 }

@@ -3,7 +3,7 @@ import "./Footer.scss";
 
 export const Footer: React.FC = () => {
   return (
-    <div className="footer">
+    <div className="footer animation-slide-down">
       <a
         href="https://github.com/mohitkyadav/"
         target="_blank"
