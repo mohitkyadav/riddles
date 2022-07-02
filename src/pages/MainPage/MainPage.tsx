@@ -71,13 +71,10 @@ export const MainPage: React.FC = () => {
   };
 
   const reStartTheGame = () => {
-    for (var i = 1; i < 999; i++) window.clearInterval(i);
-
     setGameState({
       totalGames: 0,
       passedGames: 0,
     });
-    setCurrentPrisoner(0);
     setBoxes(createRandomArray(cfg.noOfMen));
     startTheGame();
   };
