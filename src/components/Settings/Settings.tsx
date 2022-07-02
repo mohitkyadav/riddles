@@ -7,8 +7,8 @@ interface SettingsProps {
   submitConfig: (config: ProblemCfg) => void;
   gameState: GameState;
   currentPrisoner: number;
-  startTheGame: () => void;
-  reStartTheGame: () => void;
+  startGame: () => void;
+  resetGame: () => void;
   gameRunning: boolean;
 }
 
@@ -16,13 +16,14 @@ export const Settings: React.FC<SettingsProps> = ({
   submitConfig,
   gameState,
   currentPrisoner,
-  startTheGame,
-  reStartTheGame,
+  startGame,
+  resetGame,
   gameRunning,
 }) => {
   const initialCfg: ProblemCfg = {
     noOfMen: 0,
     intervalDur: 300,
+    noOfIterations: 1,
   };
 
   const [cfg, setCfg] = useState<ProblemCfg>(initialCfg);
@@ -47,10 +48,30 @@ export const Settings: React.FC<SettingsProps> = ({
     submitConfig(newCfg);
   };
 
+  const handleNoOfIterationsChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newCfg: ProblemCfg = {
+      ...cfg,
+      noOfIterations: parseInt(event.target.value, 10),
+    };
+    setCfg(newCfg);
+    submitConfig(newCfg);
+  };
+
   return (
     <div className="settings animation-slide-down">
       <h3>Settings</h3>
       <div className="settings__row">
+        <div className="settings__row__item">
+          <span>Iterations</span>
+          <input
+            type="number"
+            value={cfg.noOfIterations}
+            min={1}
+            onChange={handleNoOfIterationsChange}
+          />
+        </div>
         <div className="settings__row__item">
           <span>No. of prisoners</span>
           <input
@@ -79,17 +100,28 @@ export const Settings: React.FC<SettingsProps> = ({
 
         <div className="settings__row__controls">
           <button
-            onClick={() => startTheGame()}
+            onClick={() => startGame()}
             disabled={gameRunning || cfg.noOfMen <= 0}
           >
             Start
           </button>
           <button
-            onClick={reStartTheGame}
+            onClick={resetGame}
             disabled={gameRunning || cfg.noOfMen <= 0}
           >
-            Randomize Boxes & Start
+            Reset
           </button>
+        </div>
+
+        <VerticalDivider />
+
+        <div className="settings__row__item">
+          <span>Win Probability</span>
+          <p>
+            {gameState.totalGames
+              ? gameState.passedGames / gameState.totalGames
+              : 0}
+          </p>
         </div>
       </div>
     </div>

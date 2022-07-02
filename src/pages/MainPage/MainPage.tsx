@@ -5,6 +5,12 @@ import { createRandomArray } from "../../utils";
 
 import "./MainPage.scss";
 
+const initialCfg: ProblemCfg = {
+  intervalDur: 300,
+  noOfMen: 0,
+  noOfIterations: 1,
+};
+
 export const MainPage: React.FC = () => {
   const [gameRunning, setGameRunning] = useState(false);
   const [gameState, setGameState] = useState<GameState>({
@@ -12,10 +18,7 @@ export const MainPage: React.FC = () => {
     passedGames: 0,
   });
   const [currentPrisoner, setCurrentPrisoner] = useState<number>(0);
-  const [cfg, setCfg] = useState<ProblemCfg>({
-    intervalDur: 300,
-    noOfMen: 0,
-  });
+  const [cfg, setCfg] = useState<ProblemCfg>(initialCfg);
   const [boxes, setBoxes] = useState<number[]>([]);
   const [logs, setLogs] = useState<string[]>([]);
 
@@ -71,36 +74,49 @@ export const MainPage: React.FC = () => {
 
       if (boxCounter >= newBoxes.length / 2) {
         setGameRunning(false);
+        setCurrentPrisoner(0);
         setGameState((gameState) => ({
           ...gameState,
           totalGames: gameState.totalGames + 1,
         }));
-        alert("Game over, failed on prisoner " + manIdx);
+
+        setLogs((logs) => [...logs, "Game over, failed on prisoner " + manIdx]);
         break;
       }
 
       if (manIdx === newBoxes.length) {
         setGameRunning(false);
+        setCurrentPrisoner(0);
         setGameState((gameState) => ({
           ...gameState,
           totalGames: gameState.totalGames + 1,
           passedGames: gameState.passedGames + 1,
         }));
-        alert("All prisoners found their number");
+        setLogs((logs) => [...logs, "All prisoners found their number"]);
         break;
       }
     }
   };
 
-  const reStartTheGame = async () => {
+  const resetGame = async () => {
     setGameState({
       totalGames: 0,
       passedGames: 0,
     });
+    setCurrentPrisoner(0);
+    setGameRunning(false);
+    setCfg((cfg) => ({
+      ...cfg,
+      intervalDur: 300,
+    }));
+  };
 
-    const newBoxes = createRandomArray(cfg.noOfMen);
-    setBoxes(newBoxes);
-    await startTheGame(newBoxes);
+  const startIterations = async () => {
+    for (let i = 0; i < cfg.noOfIterations; i++) {
+      const newBoxes = createRandomArray(cfg.noOfMen);
+      setBoxes(newBoxes);
+      await startTheGame(newBoxes);
+    }
   };
 
   return (
@@ -120,8 +136,8 @@ export const MainPage: React.FC = () => {
         submitConfig={handleConfigChange}
         gameState={gameState}
         currentPrisoner={currentPrisoner}
-        startTheGame={startTheGame}
-        reStartTheGame={reStartTheGame}
+        startGame={startIterations}
+        resetGame={resetGame}
         gameRunning={gameRunning}
       />
       <Footer />
