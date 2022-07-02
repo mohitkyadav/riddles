@@ -7,25 +7,6 @@
   flex-direction: column;
   background-color: $color-white;
 
-  &__stats {
-    display: flex;
-    margin-top: 4rem;
-    justify-content: space-between;
-
-    &__men {
-
-      span {
-        font-size: 4.8rem;
-        font-weight: 600;
-      }
-    }
-
-    button {
-      padding: 2rem;
-    }
-  }
-
-
   &__boxes {
     display: flex;
     flex-direction: column;

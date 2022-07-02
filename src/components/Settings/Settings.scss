@@ -1,0 +1,49 @@
+@import "../../sass/abstracts.scss";
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 3rem;
+  gap: 2rem;
+
+  h3 {
+    font-size: 4rem;
+    font-weight: 300;
+  }
+
+  &__row {
+    display: flex;
+    gap: 6rem;
+
+    .vertical-divider {
+      margin: 0 4rem;
+    }
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+
+      span {
+        font-weight: 700;
+        font-size: 1.4rem;
+      }
+
+      input, p {
+        font-size: 3.6rem;
+        margin-top: 0.8rem;
+        max-width: 14rem;
+        border: 0;
+        appearance: textfield;
+        border-bottom: 1px solid $font-color;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      p {
+        border: 0;
+      }
+    }
+  }
+}
