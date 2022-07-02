@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
         target="_blank"
         rel="noreferrer"
       >
-        Made by Mohit
+        Made by Prisoner Mohit
       </a>
       <CircularDivider />
       <a

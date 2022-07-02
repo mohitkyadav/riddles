@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { Box, Footer, Settings, Console } from "../../components";
 import { ProblemCfg, GameState } from "../../types";
@@ -24,15 +24,18 @@ export const MainPage: React.FC = () => {
     setBoxes(createRandomArray(config.noOfMen));
   };
 
-  const startTheGame = async () => {
+  const startTheGame = async (newBoxes = boxes) => {
     let manIdx = 0;
     let boxIdx = manIdx;
     let boxCounter = 0;
 
-    while (manIdx < boxes.length && boxCounter < boxes.length / 2) {
+    while (
+      manIdx < newBoxes.length &&
+      boxCounter <= Math.floor(newBoxes.length / 2)
+    ) {
       setCurrentPrisoner(manIdx);
-      console.log(`Man ${manIdx} looking into box ${boxIdx}`);
-      const boxValue = boxes[boxIdx];
+
+      const boxValue = newBoxes[boxIdx];
       const box = document.getElementById(`${boxIdx}-${boxValue}`);
 
       if (cfg.intervalDur >= 300) {
@@ -65,23 +68,25 @@ export const MainPage: React.FC = () => {
         box?.removeAttribute("data-active");
       }
 
-      if (boxCounter >= boxes.length / 2) {
+      if (boxCounter >= newBoxes.length / 2) {
         alert("Game over, failed on prisoner " + manIdx);
       }
 
-      if (manIdx === boxes.length) {
+      if (manIdx === newBoxes.length) {
         alert("All prisoners found their number");
       }
     }
   };
 
-  const reStartTheGame = () => {
-    // setGameState({
-    //   totalGames: 0,
-    //   passedGames: 0,
-    // });
-    setBoxes(createRandomArray(cfg.noOfMen));
-    startTheGame();
+  const reStartTheGame = async () => {
+    setGameState({
+      totalGames: 0,
+      passedGames: 0,
+    });
+
+    const newBoxes = createRandomArray(cfg.noOfMen);
+    setBoxes(newBoxes);
+    await startTheGame(newBoxes);
   };
 
   return (

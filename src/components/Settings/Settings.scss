@@ -64,6 +64,11 @@
         cursor: pointer;
         outline: none;
 
+        &:disabled {
+          opacity: 0.5;
+          cursor: initial;
+        }
+
         &:last-child {
           background-color: $color-white;
           color: $color-primary;

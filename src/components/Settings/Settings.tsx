@@ -70,14 +70,18 @@ export const Settings: React.FC<SettingsProps> = ({
 
         <div className="settings__row__item">
           <span>Current Prisoner</span>
-          <p>{currentPrisoner}</p>
+          <p>{currentPrisoner + 1}</p>
         </div>
 
         <VerticalDivider />
 
         <div className="settings__row__controls">
-          <button onClick={startTheGame}>Start</button>
-          <button onClick={reStartTheGame}>Randomize & Restart</button>
+          <button onClick={() => startTheGame()} disabled={cfg.noOfMen <= 0}>
+            Start
+          </button>
+          <button onClick={reStartTheGame} disabled={cfg.noOfMen <= 0}>
+            Randomize & Restart
+          </button>
         </div>
       </div>
     </div>
