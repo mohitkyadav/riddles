@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Footer, Play, Settings } from "../../components";
+import { Footer, Settings } from "../../components";
 import { ProblemCfg, CurrentGameState } from "../../types";
 import { createRandomArray } from "../../utils";
 
