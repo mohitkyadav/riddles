@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Play, ProblemConfig } from "../../components";
+import { Footer, Play, ProblemConfig } from "../../components";
 import { ProblemCfg } from "../../types";
 import { createRandomArray } from "../../utils";
 
@@ -19,8 +19,11 @@ export const MainPage: React.FC = () => {
 
   return (
     <div className="main-page">
-      <ProblemConfig submitConfig={handleConfigChange} />
-      <Play boxes={boxes} intervalDur={cfg.intervalDur} />
+      <div className="main-page__main">
+        <ProblemConfig submitConfig={handleConfigChange} />
+        <Play boxes={boxes} intervalDur={cfg.intervalDur} />
+      </div>
+      <Footer />
     </div>
   );
 };

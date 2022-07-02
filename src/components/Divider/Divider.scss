@@ -1,0 +1,8 @@
+@import "../../sass/abstracts.scss";
+
+.circular-divider {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: $font-color;
+}

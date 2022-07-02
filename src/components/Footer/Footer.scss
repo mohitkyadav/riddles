@@ -1,0 +1,18 @@
+@import "../../sass/abstracts.scss";
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  padding: 6rem 3rem;
+
+  a {
+    color: $font-color;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

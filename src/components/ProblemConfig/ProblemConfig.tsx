@@ -44,13 +44,15 @@ export const ProblemConfig: React.FC<ProblemConfigProps> = ({
     submitConfig(initialCfg);
   };
 
+  // contenteditable html input like this with slider
+  // https://hihayk.github.io/scale/#4/6/50/80/-51/67/20/14000/1D9A6C/29/154/108/white
   return (
     <div className="problem-config">
-      <h1>Problem config</h1>
+      <h1>Config</h1>
 
       <div className="problem-config__form">
         <form onSubmit={handleSubmit}>
-          <h4>No. of men</h4>
+          <h4>No. of prisoners</h4>
           <input
             type="number"
             placeholder="No. of men"

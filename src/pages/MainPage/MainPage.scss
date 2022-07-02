@@ -1,3 +1,10 @@
 .main-page {
   display: flex;
+  height: 100vh;
+  flex-direction: column;
+
+  &__main {
+    display: flex;
+    flex: 1;
+  }
 }
