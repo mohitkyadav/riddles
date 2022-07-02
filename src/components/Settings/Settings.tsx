@@ -6,11 +6,13 @@ import "./Settings.scss";
 interface SettingsProps {
   submitConfig: (config: ProblemCfg) => void;
   currentGameState: CurrentGameState;
+  startTheGame: () => void;
 }
 
 export const Settings: React.FC<SettingsProps> = ({
   submitConfig,
   currentGameState,
+  startTheGame,
 }) => {
   const initialCfg: ProblemCfg = {
     noOfMen: 0,
@@ -70,6 +72,12 @@ export const Settings: React.FC<SettingsProps> = ({
         <div className="settings__row__item">
           <span>Passed Prisoner</span>
           <p>{currentGameState.passedPrisoners}</p>
+        </div>
+
+        <VerticalDivider />
+
+        <div className="settings__row__controls">
+          <button onClick={startTheGame}>Start</button>
         </div>
       </div>
     </div>
