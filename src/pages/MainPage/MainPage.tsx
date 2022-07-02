@@ -105,10 +105,6 @@ export const MainPage: React.FC = () => {
     });
     setCurrentPrisoner(0);
     setGameRunning(false);
-    setCfg((cfg) => ({
-      ...cfg,
-      intervalDur: 300,
-    }));
   };
 
   const startIterations = async () => {
