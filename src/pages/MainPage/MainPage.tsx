@@ -22,12 +22,12 @@ export const MainPage: React.FC = () => {
     setBoxes(createRandomArray(config.noOfMen));
   };
 
-  const startTheGame = () => {
+  const startTheGame = async () => {
     let manIdx = 0;
     let boxIdx = manIdx;
     let boxCounter = 0;
 
-    const interval = setInterval(() => {
+    while (manIdx < boxes.length && boxCounter < boxes.length / 2) {
       setCurrentPrisoner(manIdx);
       console.log(`Man ${manIdx} looking into box ${boxIdx}`);
       const boxValue = boxes[boxIdx];
@@ -45,27 +45,29 @@ export const MainPage: React.FC = () => {
 
       if (manIdx === boxValue) {
         console.log(`Man ${manIdx} found his number inside box ${boxIdx}`);
+        await new Promise((r) => setTimeout(r, cfg.intervalDur));
         manIdx++;
         boxIdx = manIdx;
         boxCounter = 0;
       } else {
+        await new Promise((r) => setTimeout(r, cfg.intervalDur));
         boxIdx = boxValue;
         boxCounter++;
       }
 
       // no need to update the dom if it's too fast to see from human eye
       if (cfg.intervalDur >= 100) {
-        setTimeout(() => box?.removeAttribute("data-active"), cfg.intervalDur);
+        box?.removeAttribute("data-active");
       }
 
-      if (boxCounter > boxes.length / 2) {
+      if (boxCounter >= boxes.length / 2) {
         alert("Game over, failed on prisoner " + manIdx);
       }
 
-      if (boxCounter > boxes.length / 2 || manIdx === boxes.length) {
-        clearInterval(interval);
+      if (manIdx === boxes.length) {
+        alert("All prisoners found their number");
       }
-    }, cfg.intervalDur);
+    }
   };
 
   const reStartTheGame = () => {
