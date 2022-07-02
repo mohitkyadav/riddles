@@ -68,8 +68,11 @@
           background-color: $color-white;
           color: $color-primary;
         }
-      }
 
+        &:focus-visible {
+          box-shadow: 0 0 0.5rem $color-primary;
+        }
+      }
     }
   }
 }

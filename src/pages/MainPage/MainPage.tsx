@@ -88,7 +88,7 @@ export const MainPage: React.FC = () => {
           <div className="main-page__play__boxes__grid">
             {boxes.map((box, index) => (
               <div
-                key={`${index}-${box}`}
+                key={box}
                 id={`${index}-${box}`}
                 className="main-page__play__boxes__grid__box"
               >
