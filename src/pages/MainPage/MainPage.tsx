@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Footer, Settings } from "../../components";
+import { flushSync } from "react-dom";
+import { Box, Footer, Settings, Console } from "../../components";
 import { ProblemCfg, GameState } from "../../types";
 import { createRandomArray } from "../../utils";
 
@@ -15,7 +16,8 @@ export const MainPage: React.FC = () => {
     intervalDur: 300,
     noOfMen: 0,
   });
-  const [boxes, setBoxes] = useState<Array<number>>([]);
+  const [boxes, setBoxes] = useState<number[]>([]);
+  const [logs, setLogs] = useState<string[]>([]);
 
   const handleConfigChange = (config: ProblemCfg) => {
     setCfg(config);
@@ -44,7 +46,10 @@ export const MainPage: React.FC = () => {
       }
 
       if (manIdx === boxValue) {
-        console.log(`Man ${manIdx} found his number inside box ${boxIdx}`);
+        setLogs((logs) => [
+          ...logs,
+          `Man ${manIdx} found his number inside box ${boxIdx}`,
+        ]);
         await new Promise((r) => setTimeout(r, cfg.intervalDur));
         manIdx++;
         boxIdx = manIdx;
@@ -71,10 +76,10 @@ export const MainPage: React.FC = () => {
   };
 
   const reStartTheGame = () => {
-    setGameState({
-      totalGames: 0,
-      passedGames: 0,
-    });
+    // setGameState({
+    //   totalGames: 0,
+    //   passedGames: 0,
+    // });
     setBoxes(createRandomArray(cfg.noOfMen));
     startTheGame();
   };
@@ -87,16 +92,7 @@ export const MainPage: React.FC = () => {
         <div className="main-page__play__boxes">
           <div className="main-page__play__boxes__grid">
             {boxes.map((box, index) => (
-              <div
-                key={box}
-                id={`${index}-${box}`}
-                className="main-page__play__boxes__grid__box"
-              >
-                {box}
-                <div className="main-page__play__boxes__grid__box__cover">
-                  {index}
-                </div>
-              </div>
+              <Box key={`${box}-${index}`} number={box} index={index} />
             ))}
           </div>
         </div>
@@ -109,6 +105,7 @@ export const MainPage: React.FC = () => {
         reStartTheGame={reStartTheGame}
       />
       <Footer />
+      <Console logs={logs} />
     </div>
   );
 };
