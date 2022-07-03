@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Box, Footer, Settings, Console } from "../../components";
 import { ProblemCfg, GameState } from "../../types";
 import { createRandomArray, sleep } from "../../utils";
@@ -12,6 +12,7 @@ const initialCfg: ProblemCfg = {
 };
 
 export const MainPage: React.FC = () => {
+  const floatingPrisonerRef = useRef<HTMLDivElement>(null);
   const [gameRunning, setGameRunning] = useState(false);
   const [gameState, setGameState] = useState<GameState>({
     totalGames: 0,
@@ -35,7 +36,7 @@ export const MainPage: React.FC = () => {
     setGameRunning(true);
     await sleep(cfg.intervalDur * 2);
 
-    const floatingPrisoner = document.getElementById("floating-prisoner");
+    const floatingPrisoner = floatingPrisonerRef.current;
 
     while (
       manIdx < newBoxes.length &&
@@ -155,7 +156,7 @@ export const MainPage: React.FC = () => {
                   ? "main-page__play__boxes__grid__prisoner--active"
                   : ""
               }`}
-              id="floating-prisoner"
+              ref={floatingPrisonerRef}
             >
               {currentPrisoner + 1}
             </div>
