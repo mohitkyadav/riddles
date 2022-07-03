@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Box, Footer, Settings, Console } from "../../components";
 import { ProblemCfg, GameState } from "../../types";
-import { createRandomArray } from "../../utils";
+import { createRandomArray, sleep } from "../../utils";
 
 import "./PrisonerRiddle.scss";
+
+const defaultPosFloatingPrisoner = -100;
 
 const initialCfg: ProblemCfg = {
   intervalDur: 300,
@@ -12,6 +14,7 @@ const initialCfg: ProblemCfg = {
 };
 
 export const PrisonerRiddle: React.FC = () => {
+  const floatingPrisonerRef = useRef<HTMLDivElement>(null);
   const [gameRunning, setGameRunning] = useState(false);
   const [gameState, setGameState] = useState<GameState>({
     totalGames: 0,
@@ -33,6 +36,9 @@ export const PrisonerRiddle: React.FC = () => {
     let boxIdx = manIdx;
     let boxCounter = 0;
     setGameRunning(true);
+    await sleep(cfg.intervalDur * 2);
+
+    const floatingPrisoner = floatingPrisonerRef.current;
 
     while (
       manIdx < newBoxes.length &&
@@ -47,6 +53,13 @@ export const PrisonerRiddle: React.FC = () => {
         box?.scrollIntoView({
           behavior: "smooth",
         });
+
+        if (box && floatingPrisoner) {
+          floatingPrisoner.style.opacity = "1";
+          floatingPrisoner.style.left = `${box.offsetLeft}px`;
+          floatingPrisoner.style.top = `${box.offsetTop + 45}px`;
+          floatingPrisoner.style.width = `${box.offsetWidth}px`;
+        }
       }
       // no need to update the dom if it's too fast to see from human eye
       if (cfg.intervalDur >= 100) {
@@ -58,12 +71,12 @@ export const PrisonerRiddle: React.FC = () => {
           ...logs,
           `Man ${manIdx} found his number inside box ${boxIdx}`,
         ]);
-        await new Promise((r) => setTimeout(r, cfg.intervalDur));
+        await sleep(cfg.intervalDur * 2);
         manIdx++;
         boxIdx = manIdx;
         boxCounter = 0;
       } else {
-        await new Promise((r) => setTimeout(r, cfg.intervalDur));
+        await sleep(cfg.intervalDur);
         boxIdx = boxValue;
         boxCounter++;
       }
@@ -75,6 +88,11 @@ export const PrisonerRiddle: React.FC = () => {
 
       if (boxCounter >= newBoxes.length / 2) {
         setGameRunning(false);
+
+        if (floatingPrisoner) {
+          floatingPrisoner.style.opacity = "0";
+          floatingPrisoner.style.left = `${defaultPosFloatingPrisoner}px`;
+        }
         setCurrentPrisoner(0);
         setGameState((gameState) => ({
           ...gameState,
@@ -87,6 +105,12 @@ export const PrisonerRiddle: React.FC = () => {
 
       if (manIdx === newBoxes.length) {
         setGameRunning(false);
+
+        if (floatingPrisoner) {
+          floatingPrisoner.style.opacity = "0";
+          floatingPrisoner.style.left = `${-defaultPosFloatingPrisoner}px`;
+        }
+
         setCurrentPrisoner(0);
         setGameState((gameState) => ({
           ...gameState,
@@ -128,6 +152,16 @@ export const PrisonerRiddle: React.FC = () => {
             {boxes.map((box, index) => (
               <Box key={`${box}-${index}`} number={box} index={index} />
             ))}
+            <div
+              className={`prisoner-riddle__play__boxes__grid__prisoner ${
+                gameRunning
+                  ? "prisoner-riddle__play__boxes__grid__prisoner--active"
+                  : ""
+              }`}
+              ref={floatingPrisonerRef}
+            >
+              {currentPrisoner + 1}
+            </div>
           </div>
         </div>
       </div>
