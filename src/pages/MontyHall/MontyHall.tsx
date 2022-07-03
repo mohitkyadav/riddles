@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Footer, Console } from "../../components";
-import { sleep } from "../../utils";
+import { getRandomIntApartFrom, sleep } from "../../utils";
 import "./MontyHall.scss";
 
 export const MontyHall: React.FC = () => {
@@ -12,6 +12,8 @@ export const MontyHall: React.FC = () => {
   const [selectedDoor, setSelectedDoor] = useState(-1);
   const [revealGoats, setRevealGoats] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  // if selected door is correct, then hide another random door
+  const [fakeDoorWithCar, setFakeDoorWithCar] = useState(-1);
 
   const startSimulation = async () => {
     const noOfWins = await simulate();
@@ -53,6 +55,7 @@ export const MontyHall: React.FC = () => {
         log("You win!");
       } else {
         log("You lose!");
+        setFakeDoorWithCar(-1);
       }
       setGameOver(true);
       await sleep(1000);
@@ -60,8 +63,14 @@ export const MontyHall: React.FC = () => {
       setRevealGoats(false);
       setSelectedDoor(-1);
       setDoorWithCar(-1);
+      setFakeDoorWithCar(-1);
     } else {
       setSelectedDoor(door);
+
+      if (door === doorWithCar) {
+        setFakeDoorWithCar(getRandomIntApartFrom(door, noOfDoors));
+      }
+
       await sleep(1000);
       log(
         `Host: 2. Openning ${noOfDoors - 2} doors out of remaining ${
@@ -89,7 +98,8 @@ export const MontyHall: React.FC = () => {
               disabled={
                 (revealGoats &&
                   selectedDoor !== index &&
-                  doorWithCar !== index) ||
+                  doorWithCar !== index &&
+                  fakeDoorWithCar !== index) ||
                 doorWithCar === -1
               }
             >
@@ -102,6 +112,7 @@ export const MontyHall: React.FC = () => {
                   {selectedDoor === index && "🤞"}
                   {revealGoats &&
                     doorWithCar !== index &&
+                    fakeDoorWithCar !== index &&
                     selectedDoor !== index &&
                     "🐑"}
                 </div>

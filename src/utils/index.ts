@@ -30,3 +30,13 @@ export const createRandomArray = (size: number) => {
 
 export const sleep = async (delayInMs: number) =>
   new Promise((r) => setTimeout(r, delayInMs));
+
+export const getRandomIntApartFrom = (avoid: number, max: number): number => {
+  const random = Math.floor(Math.random() * max) + 1;
+
+  if (random === avoid) {
+    return getRandomIntApartFrom(avoid, max);
+  }
+
+  return random;
+};
