@@ -32,6 +32,16 @@
         grid-gap: 4rem;
         margin-top: 1rem;
 
+        &__prisosner {
+          position: absolute;
+          width: 2rem;
+          height: 4rem;
+          border-radius: 0.5rem;
+          left: -2rem;
+          top: -0;
+          transition: all 0.3s ease-in-out;
+        }
+
         &__box {
           position: relative;
           display: flex;

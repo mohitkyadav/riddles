@@ -33,6 +33,7 @@ export const MainPage: React.FC = () => {
     let boxIdx = manIdx;
     let boxCounter = 0;
     setGameRunning(true);
+    const floatingPrisoner = document.getElementById("floating-prisoner");
 
     while (
       manIdx < newBoxes.length &&
@@ -42,6 +43,12 @@ export const MainPage: React.FC = () => {
 
       const boxValue = newBoxes[boxIdx];
       const box = document.getElementById(`${boxIdx}-${boxValue}`);
+      if (box && floatingPrisoner) {
+        floatingPrisoner.style.left = `${box.offsetLeft - 25}px`;
+        floatingPrisoner.style.top = `${box.offsetTop}px`;
+      }
+
+      // console.log(box?.getBoundingClientRect());
 
       if (cfg.intervalDur >= 300) {
         box?.scrollIntoView({
@@ -128,6 +135,12 @@ export const MainPage: React.FC = () => {
             {boxes.map((box, index) => (
               <Box key={`${box}-${index}`} number={box} index={index} />
             ))}
+            <img
+              className="main-page__play__boxes__grid__prisosner"
+              id="floating-prisoner"
+              src="https://via.placeholder.com/300"
+              alt="placeholder"
+            />
           </div>
         </div>
       </div>
