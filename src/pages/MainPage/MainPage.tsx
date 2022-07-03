@@ -33,8 +33,9 @@ export const MainPage: React.FC = () => {
     let boxIdx = manIdx;
     let boxCounter = 0;
     setGameRunning(true);
+    await new Promise((r) => setTimeout(r, cfg.intervalDur * 2));
+
     const floatingPrisoner = document.getElementById("floating-prisoner");
-    console.log(manIdx, boxIdx);
 
     while (
       manIdx < newBoxes.length &&
@@ -43,19 +44,20 @@ export const MainPage: React.FC = () => {
       setCurrentPrisoner(manIdx);
 
       const boxValue = newBoxes[boxIdx];
+      console.log(boxIdx, boxValue);
       const box = document.getElementById(`${boxIdx}-${boxValue}`);
-      if (box && floatingPrisoner) {
-        floatingPrisoner.style.left = `${box.offsetLeft}px`;
-        floatingPrisoner.style.top = `${box.offsetTop + 45}px`;
-        floatingPrisoner.style.width = `${box.offsetWidth}px`;
-      }
-
-      // console.log(box?.getBoundingClientRect());
+      console.log(`${boxIdx}-${boxValue}`, box);
 
       if (cfg.intervalDur >= 300) {
         box?.scrollIntoView({
           behavior: "smooth",
         });
+
+        if (box && floatingPrisoner) {
+          floatingPrisoner.style.left = `${box.offsetLeft}px`;
+          floatingPrisoner.style.top = `${box.offsetTop + 45}px`;
+          floatingPrisoner.style.width = `${box.offsetWidth}px`;
+        }
       }
       // no need to update the dom if it's too fast to see from human eye
       if (cfg.intervalDur >= 100) {
@@ -84,6 +86,11 @@ export const MainPage: React.FC = () => {
 
       if (boxCounter >= newBoxes.length / 2) {
         setGameRunning(false);
+
+        if (floatingPrisoner) {
+          floatingPrisoner.style.left = `${-100}px`;
+          floatingPrisoner.style.top = `${-100}px`;
+        }
         setCurrentPrisoner(0);
         setGameState((gameState) => ({
           ...gameState,
@@ -96,6 +103,12 @@ export const MainPage: React.FC = () => {
 
       if (manIdx === newBoxes.length) {
         setGameRunning(false);
+
+        if (floatingPrisoner) {
+          floatingPrisoner.style.left = `${-100}px`;
+          floatingPrisoner.style.top = `${-100}px`;
+        }
+
         setCurrentPrisoner(0);
         setGameState((gameState) => ({
           ...gameState,
