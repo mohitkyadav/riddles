@@ -4,9 +4,8 @@ import { sleep } from "../../utils";
 import "./MontyHall.scss";
 
 export const MontyHall: React.FC = () => {
-  const noOfDoors = 10;
-  const noOfSimulations = 3;
-
+  const [noOfDoors, setNoOfDoors] = useState(10);
+  const [noOfSimulations, setNoOfSimulations] = useState(3);
   const [logs, setLogs] = useState<string[]>([]);
   const [winPercentage, setWinPercentage] = useState(0);
   const [doorWithCar, setDoorWithCar] = useState(-1);
@@ -64,10 +63,14 @@ export const MontyHall: React.FC = () => {
     } else {
       setSelectedDoor(door);
       await sleep(1000);
-      log(`Openning ${noOfDoors - 2} doors out of remaining ${noOfDoors - 1}.`);
+      log(
+        `Host: 2. Openning ${noOfDoors - 2} doors out of remaining ${
+          noOfDoors - 1
+        }.`
+      );
       await sleep(1000);
       setRevealGoats(true);
-      log("Stick or Switch?");
+      log("Play: 3. Stick or Switch?");
       await sleep(1000);
     }
   };
