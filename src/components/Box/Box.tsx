@@ -9,8 +9,10 @@ export const Box: React.FC<BoxProps> = ({ number, index }) => {
       id={`${index}-${number}`}
       className="main-page__play__boxes__grid__box"
     >
-      {number}
-      <div className="main-page__play__boxes__grid__box__cover">{index}</div>
+      {number + 1}
+      <div className="main-page__play__boxes__grid__box__cover">
+        {index + 1}
+      </div>
     </div>
   );
 };

@@ -27,3 +27,6 @@ export const createRandomArray = (size: number) => {
 
   return array;
 };
+
+export const sleep = async (delayInMs: number) =>
+  new Promise((r) => setTimeout(r, delayInMs));
