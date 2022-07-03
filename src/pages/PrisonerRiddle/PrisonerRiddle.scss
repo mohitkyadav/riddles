@@ -32,6 +32,25 @@
         grid-gap: 4rem;
         margin-top: 1rem;
 
+        &__prisoner {
+          position: absolute;
+          width: 8rem;
+          height: 2.4rem;
+          border-radius: 0.5rem;
+          left: -8rem;
+          transition: all 0.3s ease-in-out;
+          background-color: orange;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: white;
+          opacity: 0;
+
+          &--active {
+            opacity: 1;
+          }
+        }
+
         &__box {
           position: relative;
           display: flex;
