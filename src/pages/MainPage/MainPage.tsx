@@ -44,9 +44,7 @@ export const MainPage: React.FC = () => {
       setCurrentPrisoner(manIdx);
 
       const boxValue = newBoxes[boxIdx];
-      console.log(boxIdx, boxValue);
       const box = document.getElementById(`${boxIdx}-${boxValue}`);
-      console.log(`${boxIdx}-${boxValue}`, box);
 
       if (cfg.intervalDur >= 300) {
         box?.scrollIntoView({
@@ -54,6 +52,7 @@ export const MainPage: React.FC = () => {
         });
 
         if (box && floatingPrisoner) {
+          floatingPrisoner.style.opacity = "1";
           floatingPrisoner.style.left = `${box.offsetLeft}px`;
           floatingPrisoner.style.top = `${box.offsetTop + 45}px`;
           floatingPrisoner.style.width = `${box.offsetWidth}px`;
@@ -88,8 +87,8 @@ export const MainPage: React.FC = () => {
         setGameRunning(false);
 
         if (floatingPrisoner) {
+          floatingPrisoner.style.opacity = "0";
           floatingPrisoner.style.left = `${-100}px`;
-          floatingPrisoner.style.top = `${-100}px`;
         }
         setCurrentPrisoner(0);
         setGameState((gameState) => ({
@@ -105,8 +104,8 @@ export const MainPage: React.FC = () => {
         setGameRunning(false);
 
         if (floatingPrisoner) {
+          floatingPrisoner.style.opacity = "0";
           floatingPrisoner.style.left = `${-100}px`;
-          floatingPrisoner.style.top = `${-100}px`;
         }
 
         setCurrentPrisoner(0);
