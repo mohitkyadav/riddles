@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { MainPage, MontyHall, HomePage } from "./pages";
+import { PrisonerRiddle, MontyHall, HomePage } from "./pages";
 import reportWebVitals from "./reportWebVitals";
 
 import "./sass/main.scss";
@@ -15,8 +15,8 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="monty" element={<MontyHall />} />
-        <Route path="prison" element={<MainPage />} />
+        <Route path="hall" element={<MontyHall />} />
+        <Route path="100prisoners" element={<PrisonerRiddle />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
