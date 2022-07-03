@@ -34,6 +34,7 @@ export const MainPage: React.FC = () => {
     let boxCounter = 0;
     setGameRunning(true);
     const floatingPrisoner = document.getElementById("floating-prisoner");
+    console.log(manIdx, boxIdx);
 
     while (
       manIdx < newBoxes.length &&
@@ -44,8 +45,9 @@ export const MainPage: React.FC = () => {
       const boxValue = newBoxes[boxIdx];
       const box = document.getElementById(`${boxIdx}-${boxValue}`);
       if (box && floatingPrisoner) {
-        floatingPrisoner.style.left = `${box.offsetLeft - 25}px`;
-        floatingPrisoner.style.top = `${box.offsetTop}px`;
+        floatingPrisoner.style.left = `${box.offsetLeft}px`;
+        floatingPrisoner.style.top = `${box.offsetTop + 45}px`;
+        floatingPrisoner.style.width = `${box.offsetWidth}px`;
       }
 
       // console.log(box?.getBoundingClientRect());
@@ -65,7 +67,7 @@ export const MainPage: React.FC = () => {
           ...logs,
           `Man ${manIdx} found his number inside box ${boxIdx}`,
         ]);
-        await new Promise((r) => setTimeout(r, cfg.intervalDur));
+        await new Promise((r) => setTimeout(r, cfg.intervalDur * 2));
         manIdx++;
         boxIdx = manIdx;
         boxCounter = 0;
@@ -135,12 +137,16 @@ export const MainPage: React.FC = () => {
             {boxes.map((box, index) => (
               <Box key={`${box}-${index}`} number={box} index={index} />
             ))}
-            <img
-              className="main-page__play__boxes__grid__prisosner"
+            <div
+              className={`main-page__play__boxes__grid__prisoner ${
+                gameRunning
+                  ? "main-page__play__boxes__grid__prisoner--active"
+                  : ""
+              }`}
               id="floating-prisoner"
-              src="https://via.placeholder.com/300"
-              alt="placeholder"
-            />
+            >
+              {currentPrisoner + 1}
+            </div>
           </div>
         </div>
       </div>

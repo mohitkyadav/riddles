@@ -29,17 +29,27 @@
       &__grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-        grid-gap: 4rem;
+        grid-gap: 8rem;
         margin-top: 1rem;
 
-        &__prisosner {
+        &__prisoner {
           position: absolute;
-          width: 2rem;
+          width: 8rem;
           height: 4rem;
           border-radius: 0.5rem;
-          left: -2rem;
+          left: -8rem;
           top: -0;
           transition: all 0.3s ease-in-out;
+          background-color: orange;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: white;
+          opacity: 0;
+
+          &--active {
+            opacity: 1;
+          }
         }
 
         &__box {
