@@ -1,0 +1,30 @@
+@import "../../sass/abstracts.scss";
+
+.home-page {
+  padding: 3rem 6rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .footer {
+    padding-left: 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1;
+    margin-top: 2rem;
+
+    a {
+      margin-bottom: 1rem;
+      font-size: 4.8rem;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

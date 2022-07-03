@@ -15,8 +15,8 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="hall" element={<MontyHall />} />
-        <Route path="100prisoners" element={<PrisonerRiddle />} />
+        <Route path="monty-hall" element={<MontyHall />} />
+        <Route path="prisoner-riddle" element={<PrisonerRiddle />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
