@@ -97,15 +97,13 @@ export const Settings: React.FC<SettingsProps> = ({
         <VerticalDivider />
 
         <div className="settings__row__item">
-          <span>Current Prisoner</span>
-          <p>{gameRunning ? currentPrisoner + 1 : "-"}</p>
-        </div>
-
-        <VerticalDivider />
-
-        <div className="settings__row__item">
           <span>Current Iteration</span>
           <p>{gameRunning ? currentIteration + 1 : "-"}</p>
+        </div>
+
+        <div className="settings__row__item">
+          <span>Current Prisoner</span>
+          <p>{gameRunning ? currentPrisoner + 1 : "-"}</p>
         </div>
 
         <VerticalDivider />
@@ -128,7 +126,7 @@ export const Settings: React.FC<SettingsProps> = ({
         <VerticalDivider />
 
         <div className="settings__row__item">
-          <span>Win Probability</span>
+          <span>Observed Win Probability</span>
           <p>
             {gameState.totalGames
               ? gameState.passedGames / gameState.totalGames
