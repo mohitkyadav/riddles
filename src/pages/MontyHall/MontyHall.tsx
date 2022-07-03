@@ -5,7 +5,7 @@ import "./MontyHall.scss";
 
 export const MontyHall: React.FC = () => {
   const [noOfDoors, setNoOfDoors] = useState(10);
-  const [noOfSimulations, setNoOfSimulations] = useState(3);
+  const [noOfSimulations, setNoOfSimulations] = useState(10000);
   const [logs, setLogs] = useState<string[]>([]);
   const [winPercentage, setWinPercentage] = useState(0);
   const [doorWithCar, setDoorWithCar] = useState(-1);
@@ -20,21 +20,25 @@ export const MontyHall: React.FC = () => {
 
     log("No of wins: ", noOfWins);
 
-    const winPercentage = (noOfWins / noOfSimulations) * 100;
+    const winPercentage = noOfWins / noOfSimulations;
+
     setWinPercentage(winPercentage);
   };
 
   const simulate = async () => {
     let noOfWins = 0;
-    const doorWithCar = Math.floor(Math.random() * noOfDoors) + 1;
-    setDoorWithCar(doorWithCar);
+    randomizeCar();
 
     for (let i = 0; i < noOfSimulations; i++) {
-      await sleep(300);
-
       const selectedDoor = Math.floor(Math.random() * noOfDoors) + 1;
-      setSelectedDoor(selectedDoor);
-      //  trigger select
+
+      // always follow switch strategy
+      if (selectedDoor !== doorWithCar) {
+        // We wil as we initially selected the wrong door
+        noOfWins++;
+      } else {
+        // We lose as we initially selected the right door
+      }
     }
 
     return noOfWins;
@@ -44,8 +48,8 @@ export const MontyHall: React.FC = () => {
     setLogs((logs) => [...logs, message.join()]);
 
   const randomizeCar = () => {
-    log("Randomizing car...");
     setDoorWithCar(Math.floor(Math.random() * noOfDoors) + 1);
+    log("Randomizing car...");
     log("Play: 1. Select a door");
   };
 
@@ -58,7 +62,7 @@ export const MontyHall: React.FC = () => {
         setFakeDoorWithCar(-1);
       }
       setGameOver(true);
-      await sleep(1000);
+      await sleep(500);
       setGameOver(false);
       setRevealGoats(false);
       setSelectedDoor(-1);
@@ -71,16 +75,16 @@ export const MontyHall: React.FC = () => {
         setFakeDoorWithCar(getRandomIntApartFrom(door, noOfDoors));
       }
 
-      await sleep(1000);
+      await sleep(500);
       log(
         `Host: 2. Openning ${noOfDoors - 2} doors out of remaining ${
           noOfDoors - 1
         }.`
       );
-      await sleep(1000);
+      await sleep(500);
       setRevealGoats(true);
       log("Play: 3. Stick or Switch?");
-      await sleep(1000);
+      await sleep(500);
     }
   };
 
@@ -124,6 +128,8 @@ export const MontyHall: React.FC = () => {
         <div className="mh__container__controls">
           <button onClick={randomizeCar}>Randmize car + Start</button>
           <button onClick={startSimulation}>Start Simulation</button>
+
+          <h5>{winPercentage}</h5>
         </div>
       </div>
 
