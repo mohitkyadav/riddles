@@ -1,0 +1,50 @@
+@import "../../sass/abstracts.scss";
+
+.mh {
+  padding: 3rem 6rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .footer {
+    padding-left: 0;
+  }
+
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__container {
+    padding: 4rem 0;
+    flex: 1;
+
+    &__doors {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      &__door {
+        width: 10rem;
+        height: 14rem;
+        border: 1px solid $color-primary;
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          background-color: #000;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
