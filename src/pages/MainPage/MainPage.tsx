@@ -5,6 +5,8 @@ import { createRandomArray, sleep } from "../../utils";
 
 import "./MainPage.scss";
 
+const defaultPosFloatingPrisoner = -100;
+
 const initialCfg: ProblemCfg = {
   intervalDur: 300,
   noOfMen: 0,
@@ -89,7 +91,7 @@ export const MainPage: React.FC = () => {
 
         if (floatingPrisoner) {
           floatingPrisoner.style.opacity = "0";
-          floatingPrisoner.style.left = `${-100}px`;
+          floatingPrisoner.style.left = `${defaultPosFloatingPrisoner}px`;
         }
         setCurrentPrisoner(0);
         setGameState((gameState) => ({
@@ -106,7 +108,7 @@ export const MainPage: React.FC = () => {
 
         if (floatingPrisoner) {
           floatingPrisoner.style.opacity = "0";
-          floatingPrisoner.style.left = `${-100}px`;
+          floatingPrisoner.style.left = `${-defaultPosFloatingPrisoner}px`;
         }
 
         setCurrentPrisoner(0);
