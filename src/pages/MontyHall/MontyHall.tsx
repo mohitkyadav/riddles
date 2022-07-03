@@ -11,6 +11,8 @@ export const MontyHall: React.FC = () => {
   const [winPercentage, setWinPercentage] = useState(0);
   const [doorWithCar, setDoorWithCar] = useState(-1);
   const [selectedDoor, setSelectedDoor] = useState(-1);
+  const [revealGoats, setRevealGoats] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
 
   const startSimulation = async () => {
     const noOfWins = await simulate();
@@ -19,10 +21,6 @@ export const MontyHall: React.FC = () => {
 
     const winPercentage = (noOfWins / noOfSimulations) * 100;
     setWinPercentage(winPercentage);
-  };
-
-  const getOpenedDoors = (selectedDoor: number, doorWithCar: number) => {
-    const openedDoors = [];
   };
 
   const simulate = async () => {
@@ -35,26 +33,40 @@ export const MontyHall: React.FC = () => {
 
       const selectedDoor = Math.floor(Math.random() * noOfDoors) + 1;
       setSelectedDoor(selectedDoor);
-
-      const openedDoors = getOpenedDoors(selectedDoor, doorWithCar);
-      log(
-        "Iter: ",
-        i,
-        "doorWithCar: ",
-        doorWithCar,
-        "selectedDoor: ",
-        selectedDoor,
-        "openedDoors ",
-        openedDoors
-      );
+      //  trigger select
     }
 
     return noOfWins;
   };
 
-  const log = (...message: any[]) => {
-    console.log(...message);
-    setLogs([...logs, message.join()]);
+  const log = (...message: any[]) =>
+    setLogs((logs) => [...logs, message.join()]);
+
+  const randomizeCar = () =>
+    setDoorWithCar(Math.floor(Math.random() * noOfDoors) + 1);
+
+  const handleSelect = async (door: number) => {
+    if (revealGoats) {
+      if (door === doorWithCar) {
+        log("You win!");
+      } else {
+        log("You lose!");
+      }
+      setGameOver(true);
+      await sleep(1000);
+      setGameOver(false);
+      setRevealGoats(false);
+      setSelectedDoor(-1);
+      setDoorWithCar(-1);
+    } else {
+      setSelectedDoor(door);
+      await sleep(1000);
+      log(`Openning ${noOfDoors - 2} doors out of remaining ${noOfDoors}.`);
+      await sleep(1000);
+      setRevealGoats(true);
+      log("Stick or Switch?");
+      await sleep(1000);
+    }
   };
 
   return (
@@ -64,29 +76,33 @@ export const MontyHall: React.FC = () => {
       <div className="mh__container">
         <div className="mh__container__doors">
           {Array.from({ length: noOfDoors }).map((_, index) => (
-            <div className="mh__container__doors__door" key={index}>
+            <button
+              className="mh__container__doors__door"
+              key={index}
+              onClick={() => handleSelect(index)}
+              disabled={
+                revealGoats && selectedDoor !== index && doorWithCar !== index
+              }
+            >
               <div className="mh__container__doors__door__content">
                 <div className="mh__container__doors__door__content__text">
-                  {index + 1}
-
-                  {doorWithCar === index && (
-                    <div className="mh__container__doors__door__content__text__car">
-                      🚗
-                    </div>
-                  )}
-
-                  {selectedDoor === index && (
-                    <div className="mh__container__doors__door__content__text__selected">
-                      🤞
-                    </div>
-                  )}
+                  Door {index + 1}
+                </div>
+                <div className="mh__container__doors__door__content__icons">
+                  {gameOver && doorWithCar === index && "🚗"}
+                  {selectedDoor === index && "🤞"}
+                  {revealGoats &&
+                    doorWithCar !== index &&
+                    selectedDoor !== index &&
+                    "🐑"}
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
 
         <div className="mh__container__controls">
+          <button onClick={randomizeCar}>Randmize car + Restart</button>
           <button onClick={startSimulation}>Start Simulation</button>
         </div>
       </div>

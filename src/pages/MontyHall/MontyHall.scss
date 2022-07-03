@@ -48,8 +48,35 @@
         transition: all 0.3s ease-in-out;
 
         &:hover {
-          background-color: #000;
-          color: #fff;
+          background-color: $color-primary;
+          color: $color-white;
+        }
+
+        &:hover &__content__text {
+          color: $color-white;
+        }
+
+        &:disabled {
+          pointer-events: none;
+          opacity: 0.6;
+        }
+
+        &__content {
+          position: relative;
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &__text {
+            font-size: 1.6rem;
+          }
+
+          &__icons {
+            font-size: 2rem;
+            position: absolute;
+            bottom: 0.5rem;
+          }
         }
       }
     }
