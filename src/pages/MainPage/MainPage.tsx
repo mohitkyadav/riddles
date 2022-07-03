@@ -18,6 +18,7 @@ export const MainPage: React.FC = () => {
     passedGames: 0,
   });
   const [currentPrisoner, setCurrentPrisoner] = useState<number>(0);
+  const [currentIteration, setCurrentIteration] = useState<number>(0);
   const [cfg, setCfg] = useState<ProblemCfg>(initialCfg);
   const [boxes, setBoxes] = useState<number[]>([]);
   const [logs, setLogs] = useState<string[]>([]);
@@ -105,10 +106,12 @@ export const MainPage: React.FC = () => {
     });
     setCurrentPrisoner(0);
     setGameRunning(false);
+    setCurrentIteration(0);
   };
 
   const startIterations = async () => {
     for (let i = 0; i < cfg.noOfIterations; i++) {
+      setCurrentIteration(i);
       const newBoxes = createRandomArray(cfg.noOfMen);
       setBoxes(newBoxes);
       await startTheGame(newBoxes);
@@ -132,6 +135,7 @@ export const MainPage: React.FC = () => {
         submitConfig={handleConfigChange}
         gameState={gameState}
         currentPrisoner={currentPrisoner}
+        currentIteration={currentIteration}
         startGame={startIterations}
         resetGame={resetGame}
         gameRunning={gameRunning}

@@ -7,6 +7,7 @@ interface SettingsProps {
   submitConfig: (config: ProblemCfg) => void;
   gameState: GameState;
   currentPrisoner: number;
+  currentIteration: number;
   startGame: () => void;
   resetGame: () => void;
   gameRunning: boolean;
@@ -16,6 +17,7 @@ export const Settings: React.FC<SettingsProps> = ({
   submitConfig,
   gameState,
   currentPrisoner,
+  currentIteration,
   startGame,
   resetGame,
   gameRunning,
@@ -68,6 +70,7 @@ export const Settings: React.FC<SettingsProps> = ({
           <input
             type="number"
             value={cfg.noOfIterations}
+            disabled={gameRunning}
             min={1}
             onChange={handleNoOfIterationsChange}
           />
@@ -77,6 +80,7 @@ export const Settings: React.FC<SettingsProps> = ({
           <input
             type="number"
             value={cfg.noOfMen}
+            disabled={gameRunning}
             onChange={handleNoOfMenChange}
           />
         </div>
@@ -85,6 +89,7 @@ export const Settings: React.FC<SettingsProps> = ({
           <input
             type="number"
             value={cfg.intervalDur}
+            disabled={gameRunning}
             onChange={handleIntervalDurChange}
           />
         </div>
@@ -94,6 +99,13 @@ export const Settings: React.FC<SettingsProps> = ({
         <div className="settings__row__item">
           <span>Current Prisoner</span>
           <p>{gameRunning ? currentPrisoner + 1 : "-"}</p>
+        </div>
+
+        <VerticalDivider />
+
+        <div className="settings__row__item">
+          <span>Current Iteration</span>
+          <p>{gameRunning ? currentIteration + 1 : "-"}</p>
         </div>
 
         <VerticalDivider />
