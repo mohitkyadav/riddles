@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Footer, Settings, Console } from "../../components";
 import { ProblemCfg, GameState } from "../../types";
-import { createRandomArray } from "../../utils";
+import { createRandomArray, sleep } from "../../utils";
 
 import "./MainPage.scss";
 
@@ -33,7 +33,7 @@ export const MainPage: React.FC = () => {
     let boxIdx = manIdx;
     let boxCounter = 0;
     setGameRunning(true);
-    await new Promise((r) => setTimeout(r, cfg.intervalDur * 2));
+    await sleep(cfg.intervalDur * 2);
 
     const floatingPrisoner = document.getElementById("floating-prisoner");
 
@@ -68,12 +68,12 @@ export const MainPage: React.FC = () => {
           ...logs,
           `Man ${manIdx} found his number inside box ${boxIdx}`,
         ]);
-        await new Promise((r) => setTimeout(r, cfg.intervalDur * 2));
+        await sleep(cfg.intervalDur * 2);
         manIdx++;
         boxIdx = manIdx;
         boxCounter = 0;
       } else {
-        await new Promise((r) => setTimeout(r, cfg.intervalDur));
+        await sleep(cfg.intervalDur);
         boxIdx = boxValue;
         boxCounter++;
       }
