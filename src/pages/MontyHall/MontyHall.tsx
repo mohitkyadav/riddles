@@ -1,22 +1,21 @@
 import { useState } from "react";
-import { Footer } from "../../components";
+import { Footer, Console } from "../../components";
+import { sleep } from "../../utils";
 import "./MontyHall.scss";
 
 export const MontyHall: React.FC = () => {
-  const noOfDoors = 3;
+  const noOfDoors = 10;
   const noOfSimulations = 3;
 
+  const [logs, setLogs] = useState<string[]>([]);
   const [winPercentage, setWinPercentage] = useState(0);
-  const [doorWithCar, setDoorWithCar] = useState(0);
-  const [selectedDoor, setSelectedDoor] = useState(0);
+  const [doorWithCar, setDoorWithCar] = useState(-1);
+  const [selectedDoor, setSelectedDoor] = useState(-1);
 
   const startSimulation = async () => {
     const noOfWins = await simulate();
 
-    console.log(
-      "🚀 ~ file: MontyHall.tsx ~ line 19 ~ startSimulation ~ noOfWins",
-      noOfWins
-    );
+    log("No of wins: ", noOfWins);
 
     const winPercentage = (noOfWins / noOfSimulations) * 100;
     setWinPercentage(winPercentage);
@@ -32,15 +31,30 @@ export const MontyHall: React.FC = () => {
     setDoorWithCar(doorWithCar);
 
     for (let i = 0; i < noOfSimulations; i++) {
-      await new Promise((r) => setTimeout(r, 2000));
+      await sleep(300);
 
       const selectedDoor = Math.floor(Math.random() * noOfDoors) + 1;
-      const openedDoors = getOpenedDoors(selectedDoor, doorWithCar);
+      setSelectedDoor(selectedDoor);
 
-      console.log(doorWithCar, selectedDoor, openedDoors);
+      const openedDoors = getOpenedDoors(selectedDoor, doorWithCar);
+      log(
+        "Iter: ",
+        i,
+        "doorWithCar: ",
+        doorWithCar,
+        "selectedDoor: ",
+        selectedDoor,
+        "openedDoors ",
+        openedDoors
+      );
     }
 
     return noOfWins;
+  };
+
+  const log = (...message: any[]) => {
+    console.log(...message);
+    setLogs([...logs, message.join()]);
   };
 
   return (
@@ -54,6 +68,18 @@ export const MontyHall: React.FC = () => {
               <div className="mh__container__doors__door__content">
                 <div className="mh__container__doors__door__content__text">
                   {index + 1}
+
+                  {doorWithCar === index && (
+                    <div className="mh__container__doors__door__content__text__car">
+                      🚗
+                    </div>
+                  )}
+
+                  {selectedDoor === index && (
+                    <div className="mh__container__doors__door__content__text__selected">
+                      🤞
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -66,6 +92,7 @@ export const MontyHall: React.FC = () => {
       </div>
 
       <Footer />
+      <Console logs={logs} />
     </div>
   );
 };

@@ -5,6 +5,13 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  .console {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
 
   .footer {
     padding-left: 0;
