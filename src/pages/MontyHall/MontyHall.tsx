@@ -42,8 +42,11 @@ export const MontyHall: React.FC = () => {
   const log = (...message: any[]) =>
     setLogs((logs) => [...logs, message.join()]);
 
-  const randomizeCar = () =>
+  const randomizeCar = () => {
+    log("Randomizing car...");
     setDoorWithCar(Math.floor(Math.random() * noOfDoors) + 1);
+    log("Play: 1. Select a door");
+  };
 
   const handleSelect = async (door: number) => {
     if (revealGoats) {
@@ -61,7 +64,7 @@ export const MontyHall: React.FC = () => {
     } else {
       setSelectedDoor(door);
       await sleep(1000);
-      log(`Openning ${noOfDoors - 2} doors out of remaining ${noOfDoors}.`);
+      log(`Openning ${noOfDoors - 2} doors out of remaining ${noOfDoors - 1}.`);
       await sleep(1000);
       setRevealGoats(true);
       log("Stick or Switch?");
@@ -81,7 +84,10 @@ export const MontyHall: React.FC = () => {
               key={index}
               onClick={() => handleSelect(index)}
               disabled={
-                revealGoats && selectedDoor !== index && doorWithCar !== index
+                (revealGoats &&
+                  selectedDoor !== index &&
+                  doorWithCar !== index) ||
+                doorWithCar === -1
               }
             >
               <div className="mh__container__doors__door__content">
@@ -102,7 +108,7 @@ export const MontyHall: React.FC = () => {
         </div>
 
         <div className="mh__container__controls">
-          <button onClick={randomizeCar}>Randmize car + Restart</button>
+          <button onClick={randomizeCar}>Randmize car + Start</button>
           <button onClick={startSimulation}>Start Simulation</button>
         </div>
       </div>
