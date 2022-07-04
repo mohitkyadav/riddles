@@ -176,7 +176,7 @@ export const MontyHall: React.FC = () => {
 
         <div className="settings__row__controls">
           <button onClick={randomizeCar}>Randomize + Start</button>
-          <button onClick={startSimulation}>Start Simulation</button>
+          <button onClick={startSimulation}>Simulate</button>
         </div>
       </div>
 
