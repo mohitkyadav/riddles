@@ -108,7 +108,7 @@ export const PrisonerRiddle: React.FC = () => {
 
         if (floatingPrisoner) {
           floatingPrisoner.style.opacity = "0";
-          floatingPrisoner.style.left = `${-defaultPosFloatingPrisoner}px`;
+          floatingPrisoner.style.left = `${defaultPosFloatingPrisoner}px`;
         }
 
         setCurrentPrisoner(0);
