@@ -32,11 +32,13 @@ export const sleep = async (delayInMs: number) =>
   new Promise((r) => setTimeout(r, delayInMs));
 
 export const getRandomIntApartFrom = (avoid: number, max: number): number => {
-  const random = Math.floor(Math.random() * max) + 1;
+  const random = Math.floor(Math.random() * max);
 
   if (random === avoid) {
     return getRandomIntApartFrom(avoid, max);
   }
+
+  console.log(random);
 
   return random;
 };
