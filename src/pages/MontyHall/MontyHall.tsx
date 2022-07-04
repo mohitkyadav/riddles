@@ -4,8 +4,8 @@ import { getRandomIntApartFrom, sleep } from "../../utils";
 import "./MontyHall.scss";
 
 export const MontyHall: React.FC = () => {
-  const [noOfDoors, setNoOfDoors] = useState(10);
-  const [noOfSimulations, setNoOfSimulations] = useState(10000);
+  const [noOfDoors, setNoOfDoors] = useState(3);
+  const [noOfSimulations, setNoOfSimulations] = useState(1000);
   const [logs, setLogs] = useState<string[]>([]);
   const [wins, setWins] = useState(0);
   const [doorWithCar, setDoorWithCar] = useState(-1);
@@ -16,16 +16,17 @@ export const MontyHall: React.FC = () => {
   const [fakeDoorWithCar, setFakeDoorWithCar] = useState(-1);
 
   const startSimulation = async () => {
-    const noOfWins = await simulate();
+    const doorWithCar = randomizeCar();
+
+    const noOfWins = await simulate(doorWithCar);
 
     log("No of wins:", noOfWins, "out of", noOfSimulations);
 
     setWins(noOfWins);
   };
 
-  const simulate = async () => {
+  const simulate = async (doorWithCar: number) => {
     let noOfWins = 0;
-    randomizeCar();
 
     for (let i = 0; i < noOfSimulations; i++) {
       const selectedDoor = Math.floor(Math.random() * noOfDoors) + 1;
@@ -46,9 +47,12 @@ export const MontyHall: React.FC = () => {
     setLogs((logs) => [...logs, message.join(" ")]);
 
   const randomizeCar = () => {
-    setDoorWithCar(Math.floor(Math.random() * noOfDoors) + 1);
+    const randomDoor = Math.floor(Math.random() * noOfDoors) + 1;
+    setDoorWithCar(randomDoor);
     log("Randomizing car...");
     log("Play: 1. Select a door");
+
+    return randomDoor;
   };
 
   const handleSelect = async (door: number) => {
@@ -165,6 +169,11 @@ export const MontyHall: React.FC = () => {
           <div className="mh__container__settings__item">
             <span>Observed Probability (Always Switch)</span>
             <p>{wins / noOfSimulations}</p>
+          </div>
+
+          <div className="mh__container__settings__item">
+            <span>Observed Probability (Always Stick)</span>
+            <p>{1 - wins / noOfSimulations}</p>
           </div>
         </div>
       </div>
