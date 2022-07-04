@@ -148,6 +148,7 @@ export const MontyHall: React.FC = () => {
               type="number"
               id="noOfSimulations"
               value={noOfSimulations}
+              min={1}
               onChange={(e) => {
                 setNoOfSimulations(parseInt(e.target.value, 10));
                 setWins(0);
