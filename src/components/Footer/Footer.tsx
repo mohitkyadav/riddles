@@ -1,12 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { CircularDivider } from "../Divider/Divider";
 import "./Footer.scss";
 
 export const Footer: React.FC = () => {
+  const location = useLocation();
+  console.log(location);
+
   return (
     <div className="footer animation-slide-down">
-      <Link to="/">Home</Link>
-      <CircularDivider />
+      {location.pathname !== "/" && (
+        <>
+          <Link to="/">Home</Link>
+          <CircularDivider />
+        </>
+      )}
       <a
         href="https://github.com/mohitkyadav/"
         target="_blank"
