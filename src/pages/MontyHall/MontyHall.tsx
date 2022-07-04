@@ -136,6 +136,7 @@ export const MontyHall: React.FC = () => {
               id="noOfDoors"
               value={noOfDoors}
               onChange={(e) => setNoOfDoors(parseInt(e.target.value, 10))}
+              min={3}
             />
           </div>
 
