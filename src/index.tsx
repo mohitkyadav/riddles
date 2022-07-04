@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { MainPage } from "./pages";
+import { PrisonerRiddle, MontyHall, HomePage } from "./pages";
 import reportWebVitals from "./reportWebVitals";
 
 import "./sass/main.scss";
@@ -11,7 +12,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <MainPage />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="monty-hall" element={<MontyHall />} />
+        <Route path="prisoner-riddle" element={<PrisonerRiddle />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

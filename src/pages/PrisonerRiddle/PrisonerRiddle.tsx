@@ -3,7 +3,7 @@ import { Box, Footer, Settings, Console } from "../../components";
 import { ProblemCfg, GameState } from "../../types";
 import { createRandomArray, sleep } from "../../utils";
 
-import "./MainPage.scss";
+import "./PrisonerRiddle.scss";
 
 const defaultPosFloatingPrisoner = -100;
 
@@ -13,7 +13,7 @@ const initialCfg: ProblemCfg = {
   noOfIterations: 1,
 };
 
-export const MainPage: React.FC = () => {
+export const PrisonerRiddle: React.FC = () => {
   const floatingPrisonerRef = useRef<HTMLDivElement>(null);
   const [gameRunning, setGameRunning] = useState(false);
   const [gameState, setGameState] = useState<GameState>({
@@ -143,19 +143,19 @@ export const MainPage: React.FC = () => {
   };
 
   return (
-    <div className="main-page">
-      <div className="main-page__play animation-slide-down">
+    <div className="prisoner-riddle">
+      <div className="prisoner-riddle__play animation-slide-down">
         <h1>The 100 Prisoners Riddle / N wise men problem</h1>
 
-        <div className="main-page__play__boxes">
-          <div className="main-page__play__boxes__grid">
+        <div className="prisoner-riddle__play__boxes">
+          <div className="prisoner-riddle__play__boxes__grid">
             {boxes.map((box, index) => (
               <Box key={`${box}-${index}`} number={box} index={index} />
             ))}
             <div
-              className={`main-page__play__boxes__grid__prisoner ${
+              className={`prisoner-riddle__play__boxes__grid__prisoner ${
                 gameRunning
-                  ? "main-page__play__boxes__grid__prisoner--active"
+                  ? "prisoner-riddle__play__boxes__grid__prisoner--active"
                   : ""
               }`}
               ref={floatingPrisonerRef}

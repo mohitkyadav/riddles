@@ -1,0 +1,152 @@
+@import "../../sass/abstracts.scss";
+
+.mh {
+  padding: 3rem 6rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .console {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  .footer {
+    padding-left: 0;
+  }
+
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    padding: 4rem 0;
+    flex: 1;
+
+    &__doors {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      flex-wrap: wrap;
+      gap: 4rem;
+      margin-bottom: 2rem;
+
+      &__door {
+        width: 10rem;
+        height: 14rem;
+        background-color: $color-primary;
+        border: none;
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          background-color: $color-black;
+        }
+
+        &:hover &__content__text {
+          color: $color-white;
+        }
+
+        &:disabled {
+          pointer-events: none;
+          opacity: 0.6;
+        }
+
+        &__content {
+          position: relative;
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &__text {
+            font-size: 1.6rem;
+            color: $color-white;
+          }
+
+          &__icons {
+            font-size: 2rem;
+            position: absolute;
+            bottom: 0.5rem;
+          }
+        }
+      }
+    }
+
+    &__controls {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+      gap: 2rem;
+
+      button {
+        border: 1px solid $color-primary;
+        padding: 1rem;
+        background-color: $color-white;
+        color: $color-primary;
+        font-size: 1.6rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          background-color: $color-primary;
+          color: $color-white;
+        }
+      }
+    }
+
+    &__settings {
+      display: flex;
+      gap: 2rem;
+
+      &__item {
+        display: flex;
+        flex-direction: column;
+
+        label, span {
+          font-size: 1.4rem;
+          font-weight: 700;
+          height: 4rem;
+          max-width: 18rem;
+        }
+
+        input, p {
+          appearance: textfield;
+          border: 0;
+          border-bottom: 1px solid #345d6a;
+          font-size: 2.8rem;
+          margin-top: 0.8rem;
+          max-width: 14rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 13rem;
+        }
+
+        p {
+          border: none;
+        }
+      }
+
+      .vertical-divider {
+        height: 100%;
+        margin: 0 2rem;
+        // height: 4rem;
+      }
+    }
+  }
+}
