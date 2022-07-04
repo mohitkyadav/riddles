@@ -4,7 +4,6 @@ import "./Footer.scss";
 
 export const Footer: React.FC = () => {
   const location = useLocation();
-  console.log(location);
 
   return (
     <div className="footer animation-slide-down">
