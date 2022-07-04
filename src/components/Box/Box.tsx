@@ -11,7 +11,7 @@ export const Box: React.FC<BoxProps> = ({ number, index }) => {
     >
       {number + 1}
       <div className="prisoner-riddle__play__boxes__grid__box__cover">
-        {index + 1}
+        Box {index + 1}
       </div>
     </div>
   );
