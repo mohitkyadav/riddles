@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Footer, Console } from "../../components";
+import { Footer, Console, VerticalDivider } from "../../components";
 import { getRandomIntApartFrom, sleep } from "../../utils";
 import "./MontyHall.scss";
 
@@ -7,7 +7,7 @@ export const MontyHall: React.FC = () => {
   const [noOfDoors, setNoOfDoors] = useState(10);
   const [noOfSimulations, setNoOfSimulations] = useState(10000);
   const [logs, setLogs] = useState<string[]>([]);
-  const [winPercentage, setWinPercentage] = useState(0);
+  const [wins, setWins] = useState(0);
   const [doorWithCar, setDoorWithCar] = useState(-1);
   const [selectedDoor, setSelectedDoor] = useState(-1);
   const [revealGoats, setRevealGoats] = useState(false);
@@ -18,11 +18,9 @@ export const MontyHall: React.FC = () => {
   const startSimulation = async () => {
     const noOfWins = await simulate();
 
-    log("No of wins: ", noOfWins);
+    log("No of wins:", noOfWins, "out of", noOfSimulations);
 
-    const winPercentage = noOfWins / noOfSimulations;
-
-    setWinPercentage(winPercentage);
+    setWins(noOfWins);
   };
 
   const simulate = async () => {
@@ -45,7 +43,7 @@ export const MontyHall: React.FC = () => {
   };
 
   const log = (...message: any[]) =>
-    setLogs((logs) => [...logs, message.join()]);
+    setLogs((logs) => [...logs, message.join(" ")]);
 
   const randomizeCar = () => {
     setDoorWithCar(Math.floor(Math.random() * noOfDoors) + 1);
@@ -128,8 +126,44 @@ export const MontyHall: React.FC = () => {
         <div className="mh__container__controls">
           <button onClick={randomizeCar}>Randmize car + Start</button>
           <button onClick={startSimulation}>Start Simulation</button>
+        </div>
 
-          <h5>{winPercentage}</h5>
+        <div className="mh__container__settings">
+          <div className="mh__container__settings__item">
+            <label htmlFor="noOfDoors">No. of doors</label>
+            <input
+              type="number"
+              id="noOfDoors"
+              value={noOfDoors}
+              onChange={(e) => setNoOfDoors(parseInt(e.target.value, 10))}
+            />
+          </div>
+
+          <VerticalDivider />
+
+          <div className="mh__container__settings__item">
+            <label htmlFor="noOfDoors">No. of simulations</label>
+            <input
+              type="number"
+              id="noOfSimulations"
+              value={noOfSimulations}
+              onChange={(e) => {
+                setNoOfSimulations(parseInt(e.target.value, 10));
+                setWins(0);
+              }}
+            />
+          </div>
+
+          <VerticalDivider />
+          <div className="mh__container__settings__item">
+            <span>Wins</span>
+            <p>{wins}</p>
+          </div>
+
+          <div className="mh__container__settings__item">
+            <span>Observed Probability (Always Switch)</span>
+            <p>{wins / noOfSimulations}</p>
+          </div>
         </div>
       </div>
 

@@ -24,15 +24,17 @@
   }
 
   &__container {
+    display: flex;
+    flex-direction: column;
     padding: 4rem 0;
     flex: 1;
 
     &__doors {
       display: flex;
       flex-direction: row;
+      flex: 1;
       flex-wrap: wrap;
       gap: 4rem;
-      align-items: center;
       margin-bottom: 2rem;
 
       &__door {
@@ -104,6 +106,46 @@
           background-color: $color-primary;
           color: $color-white;
         }
+      }
+    }
+
+    &__settings {
+      display: flex;
+      gap: 2rem;
+
+      &__item {
+        display: flex;
+        flex-direction: column;
+
+        label, span {
+          font-size: 1.4rem;
+          font-weight: 700;
+          height: 4rem;
+          max-width: 18rem;
+        }
+
+        input, p {
+          appearance: textfield;
+          border: 0;
+          border-bottom: 1px solid #345d6a;
+          font-size: 2.8rem;
+          margin-top: 0.8rem;
+          max-width: 14rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 13rem;
+        }
+
+        p {
+          border: none;
+        }
+      }
+
+      .vertical-divider {
+        height: 100%;
+        margin: 0 2rem;
+        // height: 4rem;
       }
     }
   }
