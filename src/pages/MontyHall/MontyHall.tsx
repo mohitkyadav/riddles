@@ -73,9 +73,7 @@ export const MontyHall: React.FC = () => {
     } else {
       setSelectedDoor(door);
 
-      console.log("########", door, doorWithCar);
       if (door === doorWithCar) {
-        console.log(getRandomIntApartFrom(door, noOfDoors));
         setFakeDoorWithCar(getRandomIntApartFrom(door, noOfDoors));
       }
 

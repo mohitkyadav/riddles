@@ -38,7 +38,5 @@ export const getRandomIntApartFrom = (avoid: number, max: number): number => {
     return getRandomIntApartFrom(avoid, max);
   }
 
-  console.log(random);
-
   return random;
 };
