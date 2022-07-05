@@ -64,7 +64,7 @@ export const MontyHall: React.FC = () => {
         setFakeDoorWithCar(-1);
       }
       setGameOver(true);
-      await sleep(500);
+      await sleep(1000);
       setGameOver(false);
       setRevealGoats(false);
       setSelectedDoor(-1);
@@ -90,8 +90,35 @@ export const MontyHall: React.FC = () => {
   };
 
   const startGame = () => {
+    setGameOver(false);
+    setRevealGoats(false);
+    setSelectedDoor(-1);
+    setDoorWithCar(-1);
+    setFakeDoorWithCar(-1);
     randomizeCar();
     log("Play: 1. Select a door");
+  };
+
+  const renderIcon = (index: number) => {
+    const className =
+      "mh__play__doors__door__content__icons animation-scale-up animation-bounce";
+
+    if (gameOver && doorWithCar === index) {
+      return <div className={className}>🚗</div>;
+    }
+
+    if (selectedDoor === index) {
+      return <div className={className}>🤞</div>;
+    }
+
+    if (
+      revealGoats &&
+      doorWithCar !== index &&
+      fakeDoorWithCar !== index &&
+      selectedDoor !== index
+    ) {
+      return <div className={className}>🐑</div>;
+    }
   };
 
   return (
@@ -116,15 +143,7 @@ export const MontyHall: React.FC = () => {
                 <div className="mh__play__doors__door__content__text">
                   Door {index + 1}
                 </div>
-                <div className="mh__play__doors__door__content__icons">
-                  {gameOver && doorWithCar === index && "🚗"}
-                  {selectedDoor === index && "🤞"}
-                  {revealGoats &&
-                    doorWithCar !== index &&
-                    fakeDoorWithCar !== index &&
-                    selectedDoor !== index &&
-                    "🐑"}
-                </div>
+                {renderIcon(index)}
               </div>
             </button>
           ))}
