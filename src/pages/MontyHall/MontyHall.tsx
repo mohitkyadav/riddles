@@ -49,8 +49,8 @@ export const MontyHall: React.FC = () => {
   const randomizeCar = () => {
     const randomDoor = Math.floor(Math.random() * noOfDoors);
     setDoorWithCar(randomDoor);
+    log("...");
     log("Randomizing car...");
-    log("Play: 1. Select a door");
 
     return randomDoor;
   };
@@ -87,6 +87,11 @@ export const MontyHall: React.FC = () => {
       log("Play: 3. Stick or Switch?");
       await sleep(200);
     }
+  };
+
+  const startGame = () => {
+    randomizeCar();
+    log("Play: 1. Select a door");
   };
 
   return (
@@ -173,7 +178,7 @@ export const MontyHall: React.FC = () => {
         <VerticalDivider />
 
         <div className="settings__row__controls">
-          <button onClick={randomizeCar}>Randomize + Start</button>
+          <button onClick={startGame}>Randomize + Start</button>
           <button onClick={startSimulation}>Simulate</button>
         </div>
       </div>
