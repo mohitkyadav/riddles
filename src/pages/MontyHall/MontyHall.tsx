@@ -4,8 +4,8 @@ import { getRandomIntApartFrom, sleep } from "../../utils";
 import "./MontyHall.scss";
 
 export const MontyHall: React.FC = () => {
-  const [noOfDoors, setNoOfDoors] = useState(10);
-  const [noOfSimulations, setNoOfSimulations] = useState(10000);
+  const [noOfDoors, setNoOfDoors] = useState(3);
+  const [noOfSimulations, setNoOfSimulations] = useState(1000);
   const [logs, setLogs] = useState<string[]>([]);
   const [wins, setWins] = useState(0);
   const [doorWithCar, setDoorWithCar] = useState(-1);
@@ -16,19 +16,20 @@ export const MontyHall: React.FC = () => {
   const [fakeDoorWithCar, setFakeDoorWithCar] = useState(-1);
 
   const startSimulation = async () => {
-    const noOfWins = await simulate();
+    const doorWithCar = randomizeCar();
+
+    const noOfWins = await simulate(doorWithCar);
 
     log("No of wins:", noOfWins, "out of", noOfSimulations);
 
     setWins(noOfWins);
   };
 
-  const simulate = async () => {
+  const simulate = async (doorWithCar: number) => {
     let noOfWins = 0;
-    randomizeCar();
 
     for (let i = 0; i < noOfSimulations; i++) {
-      const selectedDoor = Math.floor(Math.random() * noOfDoors) + 1;
+      const selectedDoor = Math.floor(Math.random() * noOfDoors);
 
       // always follow switch strategy
       if (selectedDoor !== doorWithCar) {
@@ -46,9 +47,12 @@ export const MontyHall: React.FC = () => {
     setLogs((logs) => [...logs, message.join(" ")]);
 
   const randomizeCar = () => {
-    setDoorWithCar(Math.floor(Math.random() * noOfDoors) + 1);
+    const randomDoor = Math.floor(Math.random() * noOfDoors);
+    setDoorWithCar(randomDoor);
+    log("...");
     log("Randomizing car...");
-    log("Play: 1. Select a door");
+
+    return randomDoor;
   };
 
   const handleSelect = async (door: number) => {
@@ -60,7 +64,7 @@ export const MontyHall: React.FC = () => {
         setFakeDoorWithCar(-1);
       }
       setGameOver(true);
-      await sleep(500);
+      await sleep(1000);
       setGameOver(false);
       setRevealGoats(false);
       setSelectedDoor(-1);
@@ -73,28 +77,58 @@ export const MontyHall: React.FC = () => {
         setFakeDoorWithCar(getRandomIntApartFrom(door, noOfDoors));
       }
 
-      await sleep(500);
       log(
         `Host: 2. Openning ${noOfDoors - 2} doors out of remaining ${
           noOfDoors - 1
         }.`
       );
-      await sleep(500);
+      await sleep(200);
       setRevealGoats(true);
       log("Play: 3. Stick or Switch?");
-      await sleep(500);
+      await sleep(200);
+    }
+  };
+
+  const startGame = () => {
+    setGameOver(false);
+    setRevealGoats(false);
+    setSelectedDoor(-1);
+    setDoorWithCar(-1);
+    setFakeDoorWithCar(-1);
+    randomizeCar();
+    log("Play: 1. Select a door");
+  };
+
+  const renderIcon = (index: number) => {
+    const className =
+      "mh__play__doors__door__content__icons animation-scale-up animation-bounce";
+
+    if (gameOver && doorWithCar === index) {
+      return <div className={className}>🚗</div>;
+    }
+
+    if (selectedDoor === index) {
+      return <div className={className}>🤞</div>;
+    }
+
+    if (
+      revealGoats &&
+      doorWithCar !== index &&
+      fakeDoorWithCar !== index &&
+      selectedDoor !== index
+    ) {
+      return <div className={className}>🐑</div>;
     }
   };
 
   return (
     <div className="mh">
-      <h1>The Monty Hall Problem</h1>
-
-      <div className="mh__container">
-        <div className="mh__container__doors">
+      <div className="mh__play animation-slide-down">
+        <h1>The Monty Hall Problem</h1>
+        <div className="mh__play__doors">
           {Array.from({ length: noOfDoors }).map((_, index) => (
             <button
-              className="mh__container__doors__door"
+              className="mh__play__doors__door"
               key={index}
               onClick={() => handleSelect(index)}
               disabled={
@@ -105,67 +139,66 @@ export const MontyHall: React.FC = () => {
                 doorWithCar === -1
               }
             >
-              <div className="mh__container__doors__door__content">
-                <div className="mh__container__doors__door__content__text">
+              <div className="mh__play__doors__door__content">
+                <div className="mh__play__doors__door__content__text">
                   Door {index + 1}
                 </div>
-                <div className="mh__container__doors__door__content__icons">
-                  {gameOver && doorWithCar === index && "🚗"}
-                  {selectedDoor === index && "🤞"}
-                  {revealGoats &&
-                    doorWithCar !== index &&
-                    fakeDoorWithCar !== index &&
-                    selectedDoor !== index &&
-                    "🐑"}
-                </div>
+                {renderIcon(index)}
               </div>
             </button>
           ))}
         </div>
+      </div>
 
-        <div className="mh__container__controls">
-          <button onClick={randomizeCar}>Randmize car + Start</button>
-          <button onClick={startSimulation}>Start Simulation</button>
+      <div className="mh__settings animation-slide-down">
+        <div className="mh__settings__item">
+          <label htmlFor="noOfDoors">No. of doors</label>
+          <input
+            type="number"
+            id="noOfDoors"
+            value={noOfDoors}
+            onChange={(e) => setNoOfDoors(parseInt(e.target.value, 10))}
+            min={3}
+          />
         </div>
 
-        <div className="mh__container__settings">
-          <div className="mh__container__settings__item">
-            <label htmlFor="noOfDoors">No. of doors</label>
-            <input
-              type="number"
-              id="noOfDoors"
-              value={noOfDoors}
-              onChange={(e) => setNoOfDoors(parseInt(e.target.value, 10))}
-              min={3}
-            />
-          </div>
+        <VerticalDivider />
 
-          <VerticalDivider />
+        <div className="mh__settings__item">
+          <label htmlFor="noOfDoors">No. of simulations</label>
+          <input
+            type="number"
+            id="noOfSimulations"
+            value={noOfSimulations}
+            min={1}
+            onChange={(e) => {
+              setNoOfSimulations(parseInt(e.target.value, 10));
+              setWins(0);
+            }}
+          />
+        </div>
 
-          <div className="mh__container__settings__item">
-            <label htmlFor="noOfDoors">No. of simulations</label>
-            <input
-              type="number"
-              id="noOfSimulations"
-              value={noOfSimulations}
-              min={1}
-              onChange={(e) => {
-                setNoOfSimulations(parseInt(e.target.value, 10));
-                setWins(0);
-              }}
-            />
-          </div>
+        <VerticalDivider />
+        <div className="mh__settings__item">
+          <span>Wins</span>
+          <p>{wins}</p>
+        </div>
 
-          <VerticalDivider />
-          <div className="mh__container__settings__item">
-            <span>Wins</span>
-            <p>{wins}</p>
-          </div>
+        <div className="mh__settings__item">
+          <span>Observed Probability (Always Switch)</span>
+          <p>{wins / noOfSimulations}</p>
+        </div>
 
-          <div className="mh__container__settings__item">
-            <span>Observed Probability (Always Switch)</span>
-            <p>{wins / noOfSimulations}</p>
-          </div>
+        <div className="mh__settings__item">
+          <span>Observed Probability (Always Stick)</span>
+          <p>{1 - wins / noOfSimulations}</p>
+        </div>
+
+        <VerticalDivider />
+
+        <div className="settings__row__controls">
+          <button onClick={startGame}>Randomize + Start</button>
+          <button onClick={startSimulation}>Simulate</button>
         </div>
       </div>
 

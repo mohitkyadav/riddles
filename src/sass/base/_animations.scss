@@ -45,6 +45,32 @@
   animation: scaleDown 0.5s forwards;
 }
 
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-10px);
+  }
+  40% {
+    transform: translateY(5px);
+  }
+  60% {
+    transform: translateY(-2x);
+  }
+  80% {
+    transform: translateY(1px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animation-bounce {
+  animation: bounce 0.5s forwards;
+}
+
+
 @keyframes slideDown {
   0% {
     opacity: 0;
