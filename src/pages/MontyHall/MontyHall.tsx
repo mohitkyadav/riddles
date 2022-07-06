@@ -1,7 +1,12 @@
 import { useState } from "react";
+
 import { Footer, Console, VerticalDivider } from "../../components";
+import JSConfetti from "js-confetti";
 import { getRandomIntApartFrom, sleep } from "../../utils";
+
 import "./MontyHall.scss";
+
+const jsConfetti = new JSConfetti();
 
 export const MontyHall: React.FC = () => {
   const [noOfDoors, setNoOfDoors] = useState(3);
@@ -58,8 +63,20 @@ export const MontyHall: React.FC = () => {
   const handleSelect = async (door: number) => {
     if (revealGoats) {
       if (door === doorWithCar) {
+        jsConfetti.addConfetti({
+          emojis: ["⚡️", "💥", "✨", "💫", "🚗", "🚗"],
+          confettiRadius: 6,
+          emojiSize: 80,
+          confettiNumber: 60,
+        });
         log("You win!");
       } else {
+        jsConfetti.addConfetti({
+          emojis: ["🐐", "☹️"],
+          confettiRadius: 6,
+          emojiSize: 100,
+          confettiNumber: 20,
+        });
         log("You lose!");
         setFakeDoorWithCar(-1);
       }
@@ -117,7 +134,7 @@ export const MontyHall: React.FC = () => {
       fakeDoorWithCar !== index &&
       selectedDoor !== index
     ) {
-      return <div className={className}>🐑</div>;
+      return <div className={className}>🐐</div>;
     }
   };
 
