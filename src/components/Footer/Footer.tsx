@@ -13,11 +13,7 @@ export const Footer: React.FC = () => {
           <CircularDivider />
         </>
       )}
-      <a
-        href="https://github.com/mohitkyadav/"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://only4.dev" target="_blank" rel="noreferrer">
         Made by Prisoner Mohit
       </a>
       <CircularDivider />
