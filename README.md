@@ -6,7 +6,12 @@
 | The Monty Hall Problem | https://en.wikipedia.org/wiki/Monty_Hall_problem |
 
 
+## Setup
 
+```
+yarn install
+yarn start
+```
 
 Live here: [riddles.only4.dev](https://riddles.only4.dev/)
 
