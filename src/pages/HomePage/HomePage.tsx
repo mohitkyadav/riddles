@@ -13,7 +13,7 @@ export const HomePage: React.FC = () => {
       </ul>
       <Footer />
       <FloatingPaperSheets
-        noOfSheets={randomIntFromInterval(10, 15)}
+        noOfSheets={randomIntFromInterval(8, 12)}
         minSheetHeight={70}
         maxSheetHeight={90}
       />

@@ -22,6 +22,45 @@
     animation-iteration-count: infinite;
     animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
 
+    &[data-left-circle="true"] {
+      position: relative;
+      overflow: hidden;
+
+      $width: 100%;
+      $height: $width;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        width: 15rem;
+        height: 15rem;
+        background-color: $color-black;
+        border-radius: 50%;
+        transform: scale(0.9);
+        transition: all 0.3s ease-in-out;
+      }
+    }
+
+    &[data-right-circle="true"] {
+      position: relative;
+      overflow: hidden;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 10%;
+        width: 15rem;
+        height: 15rem;
+        background-color: $color-black;
+        border-radius: 50%;
+        transform: scale(0.9);
+        transition: all 0.3s ease-in-out;
+      }
+    }
+
     &:hover {
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.6);
     }
