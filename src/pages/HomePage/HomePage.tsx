@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Footer } from "../../components";
+import { Footer, FloatingPaperSheets } from "../../components";
+import { randomIntFromInterval } from "../../utils";
 import "./HomePage.scss";
 
 export const HomePage: React.FC = () => {
@@ -11,6 +12,11 @@ export const HomePage: React.FC = () => {
         <Link to="/monty-hall">Monty Hall Problem</Link>
       </ul>
       <Footer />
+      <FloatingPaperSheets
+        noOfSheets={randomIntFromInterval(10, 15)}
+        minSheetHeight={70}
+        maxSheetHeight={90}
+      />
     </div>
   );
 };

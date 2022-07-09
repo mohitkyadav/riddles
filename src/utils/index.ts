@@ -40,3 +40,11 @@ export const getRandomIntApartFrom = (avoid: number, max: number): number => {
 
   return random;
 };
+
+export const randomIntFromInterval = (min: number, max: number): number => {
+  return Math.floor(randomNumFromInterval(min, max));
+};
+
+export const randomNumFromInterval = (min: number, max: number): number => {
+  return Math.random() * (max - min + 1) + min;
+};

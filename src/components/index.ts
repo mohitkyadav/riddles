@@ -3,3 +3,4 @@ export * from "./Console/Console";
 export * from "./Footer/Footer";
 export * from "./Divider/Divider";
 export * from "./Settings/Settings";
+export * from "./FloatingPaperSheets/FloatingPaperSheets";

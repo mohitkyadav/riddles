@@ -5,6 +5,15 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  .floating-paper-sheets {
+    width: 50%;
+    position: absolute;
+    right: 0;
+    top: -10px;
+    transition: right 1s ease-in-out;
+  }
 
   .footer {
     padding-left: 0;
