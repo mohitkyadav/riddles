@@ -1,4 +1,4 @@
-# Statastical riddles
+# Statistical Riddles
 
 | Problems | Links |
 | ----------- | ------ |
